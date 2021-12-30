@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "wPXyI8DazOOPlz9dExLDeqHIN6B96v4O6DvUeoANPW4=",
+  "Source": "HeadingsLoggerMicroservice",
+  "BasePath": "_content/HeadingsLoggerMicroservice",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
