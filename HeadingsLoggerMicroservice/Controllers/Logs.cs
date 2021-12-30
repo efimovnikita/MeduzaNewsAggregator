@@ -1,3 +1,4 @@
+using HeadingsLoggerMicroservice.Collector;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HeadingsLoggerMicroservice.Controllers;
@@ -6,9 +7,15 @@ namespace HeadingsLoggerMicroservice.Controllers;
 [Route("[controller]")]
 public class Logs
 {
+    private readonly ILogCollector _collector;
+    public Logs(ILogCollector collector)
+    {
+        _collector = collector;
+    }
+
     [HttpGet]
     public List<string> Get()
     {
-        return new List<string>();
+        return _collector.HeadingsLogList;
     }
 }

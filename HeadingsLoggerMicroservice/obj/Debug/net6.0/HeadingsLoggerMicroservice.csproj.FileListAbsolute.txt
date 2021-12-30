@@ -25,3 +25,7 @@
 /home/maskedball/RiderProjects/MeduzaNewsAggregator/HeadingsLoggerMicroservice/obj/Debug/net6.0/ref/HeadingsLoggerMicroservice.dll
 /home/maskedball/RiderProjects/MeduzaNewsAggregator/HeadingsLoggerMicroservice/obj/Debug/net6.0/HeadingsLoggerMicroservice.pdb
 /home/maskedball/RiderProjects/MeduzaNewsAggregator/HeadingsLoggerMicroservice/obj/Debug/net6.0/HeadingsLoggerMicroservice.genruntimeconfig.cache
+/home/maskedball/RiderProjects/MeduzaNewsAggregator/HeadingsLoggerMicroservice/bin/Debug/net6.0/Google.Protobuf.dll
+/home/maskedball/RiderProjects/MeduzaNewsAggregator/HeadingsLoggerMicroservice/bin/Debug/net6.0/Grpc.AspNetCore.Server.dll
+/home/maskedball/RiderProjects/MeduzaNewsAggregator/HeadingsLoggerMicroservice/bin/Debug/net6.0/Grpc.Core.Api.dll
+/home/maskedball/RiderProjects/MeduzaNewsAggregator/HeadingsLoggerMicroservice/bin/Debug/net6.0/Grpc.Net.Common.dll
