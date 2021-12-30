@@ -1,9 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
+#pragma warning disable CS8618
 
 namespace FullArticlesMicroservice.Models;
 
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 [SuppressMessage("ReSharper", "CollectionNeverUpdated.Global")]
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public class Article
 {
     public string Title { get; set; } = string.Empty;

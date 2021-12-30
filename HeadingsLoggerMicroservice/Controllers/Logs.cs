@@ -18,4 +18,10 @@ public class Logs
     {
         return _collector.HeadingsLogList;
     }
+
+    [HttpPost]
+    public void AddLogItem(string item)
+    {
+        _collector.HeadingsLogList.Add(item);
+    }
 }

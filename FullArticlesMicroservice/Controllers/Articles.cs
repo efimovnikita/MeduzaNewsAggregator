@@ -5,6 +5,7 @@ using AngleSharp.Dom;
 using FullArticlesMicroservice.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Grpc.Net.Client;
 
 namespace FullArticlesMicroservice.Controllers;
 
@@ -22,8 +23,8 @@ public class Articles
     private static async Task<string> GetArticle(string url)
     {
         var uri = $"https://meduza.io/api/v3/{url}";
-        var client = new HttpClient();
-        var bytes = await client.GetByteArrayAsync(uri);
+        var httpClient = new HttpClient();
+        var bytes = await httpClient.GetByteArrayAsync(uri);
         var json = await new StreamReader(new GZipStream(new MemoryStream(bytes), CompressionMode.Decompress))
             .ReadToEndAsync();
         var article = JsonConvert.DeserializeObject<Data>(json);
@@ -32,6 +33,15 @@ public class Articles
         {
             return string.Empty;
         }
+        
+        // send message to logger service (GRPC not available)
+        await httpClient.PostAsync($"https://logs-river.herokuapp.com/Logs?item={article.Root.Title}", null);
+        // var httpHandler = new HttpClientHandler();
+        // httpHandler.ServerCertificateCustomValidationCallback = 
+        //     HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+        // using var channel = GrpcChannel.ForAddress("https://logs-river.herokuapp.com", new GrpcChannelOptions { HttpHandler = httpHandler});
+        // var client = new HeadingsLogService.HeadingsLogServiceClient(channel);
+        // await client.MessageReceivedAsync(new LogRequest { Title = article.Root.Title });
 
         var contentBody = article.Root.Content.Body;
         
