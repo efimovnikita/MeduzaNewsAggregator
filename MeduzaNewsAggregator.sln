@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsAggregatorConsoleUI", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadingsLoggerMicroservice", "HeadingsLoggerMicroservice\HeadingsLoggerMicroservice.csproj", "{FCC0636A-F654-43B6-AC76-9C2AEF66B018}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerReaderConsoleUI", "LoggerReaderConsoleUI\LoggerReaderConsoleUI.csproj", "{D6988F4E-E25A-4F42-AD70-7B1D4DDC0D78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{FCC0636A-F654-43B6-AC76-9C2AEF66B018}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCC0636A-F654-43B6-AC76-9C2AEF66B018}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCC0636A-F654-43B6-AC76-9C2AEF66B018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6988F4E-E25A-4F42-AD70-7B1D4DDC0D78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6988F4E-E25A-4F42-AD70-7B1D4DDC0D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6988F4E-E25A-4F42-AD70-7B1D4DDC0D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6988F4E-E25A-4F42-AD70-7B1D4DDC0D78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

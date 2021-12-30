@@ -54,8 +54,8 @@ async Task<string> GetResponseString(string url)
         return string.Empty;
     }
 
-    var responseString1 = await responseMessage.Content.ReadAsStringAsync();
-    return responseString1;
+    var responseString = await responseMessage.Content.ReadAsStringAsync();
+    return responseString;
 }
 
 //const string baseUrl = "http://localhost";
