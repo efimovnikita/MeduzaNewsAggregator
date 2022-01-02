@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "J3FLgRM3nRO6euSGl21f2JGvwhhOx5E+RGKO/++HK+uLlOVsY60GPTVCw4u3TO2KEZKiE4oo1QOZxyoERPNyeA==",
+  "dgSpecHash": "vNuSS8VVHMXWQd1VGeyRln6AdJZ7fffwdc7ZH+al+yvwL+dMST9IoBYqJXNmaFob3Kb2AXLlt8+ZBV3SiIh99Q==",
   "success": true,
-  "projectFilePath": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/HeadingsLoggerMicroservice/HeadingsLoggerMicroservice.csproj",
+  "projectFilePath": "/home/maskedball/Documents/MeduzaNewsAggregator/HeadingsLoggerMicroservice/HeadingsLoggerMicroservice.csproj",
   "expectedPackageFiles": [
     "/home/maskedball/.nuget/packages/google.protobuf/3.19.1/google.protobuf.3.19.1.nupkg.sha512",
     "/home/maskedball/.nuget/packages/grpc.aspnetcore.server/2.41.0/grpc.aspnetcore.server.2.41.0.nupkg.sha512",

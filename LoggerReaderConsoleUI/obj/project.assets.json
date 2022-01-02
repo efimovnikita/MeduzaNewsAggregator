@@ -2,6 +2,30 @@
   "version": 3,
   "targets": {
     "net6.0": {
+      "Autofac/6.3.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Diagnostics.DiagnosticSource": "4.7.1"
+        },
+        "compile": {
+          "lib/net5.0/Autofac.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/Autofac.dll": {}
+        }
+      },
+      "Autofactory/6.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Autofac": "4.1.1"
+        },
+        "compile": {
+          "lib/netstandard1.1/Autofactory.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Autofactory.dll": {}
+        }
+      },
       "Newtonsoft.Json/13.0.1": {
         "type": "package",
         "compile": {
@@ -10,10 +34,55 @@
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
+      },
+      "System.Diagnostics.DiagnosticSource/4.7.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
+        }
       }
     }
   },
   "libraries": {
+    "Autofac/6.3.0": {
+      "sha512": "gO4bli0N8tDnBHzbYktcnbXlmN6T+IT5W+FUGgCUaM6pwwHXIxOPoUGvfGum7sZpJJgfQNgjFFv80ZPuARgRdA==",
+      "type": "package",
+      "path": "autofac/6.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "autofac.6.3.0.nupkg.sha512",
+        "autofac.nuspec",
+        "icon.png",
+        "lib/net5.0/Autofac.dll",
+        "lib/net5.0/Autofac.pdb",
+        "lib/net5.0/Autofac.xml",
+        "lib/netstandard2.0/Autofac.dll",
+        "lib/netstandard2.0/Autofac.pdb",
+        "lib/netstandard2.0/Autofac.xml",
+        "lib/netstandard2.1/Autofac.dll",
+        "lib/netstandard2.1/Autofac.pdb",
+        "lib/netstandard2.1/Autofac.xml"
+      ]
+    },
+    "Autofactory/6.0.0": {
+      "sha512": "BWWbrpc0jsKJdum5fbWtemIvQjafKfqIVXfgP0ZT2SsNI897f7nv//izs1Jr/FcyQjn4tDZU9Z5UWrLFd5VS2g==",
+      "type": "package",
+      "path": "autofactory/6.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "autofactory.6.0.0.nupkg.sha512",
+        "autofactory.nuspec",
+        "lib/net45/Autofactory.dll",
+        "lib/net45/Autofactory.xml",
+        "lib/netstandard1.1/Autofactory.dll",
+        "lib/netstandard1.1/Autofactory.xml"
+      ]
+    },
     "Newtonsoft.Json/13.0.1": {
       "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
       "type": "package",
@@ -40,10 +109,38 @@
         "newtonsoft.json.nuspec",
         "packageIcon.png"
       ]
+    },
+    "System.Diagnostics.DiagnosticSource/4.7.1": {
+      "sha512": "j81Lovt90PDAq8kLpaJfJKV/rWdWuEk6jfV+MBkee33vzYLEUsy4gXK8laa9V2nZlLM9VM9yA/OOQxxPEJKAMw==",
+      "type": "package",
+      "path": "system.diagnostics.diagnosticsource/4.7.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net45/System.Diagnostics.DiagnosticSource.dll",
+        "lib/net45/System.Diagnostics.DiagnosticSource.xml",
+        "lib/net46/System.Diagnostics.DiagnosticSource.dll",
+        "lib/net46/System.Diagnostics.DiagnosticSource.xml",
+        "lib/netstandard1.1/System.Diagnostics.DiagnosticSource.dll",
+        "lib/netstandard1.1/System.Diagnostics.DiagnosticSource.xml",
+        "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll",
+        "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.xml",
+        "lib/portable-net45+win8+wpa81/System.Diagnostics.DiagnosticSource.dll",
+        "lib/portable-net45+win8+wpa81/System.Diagnostics.DiagnosticSource.xml",
+        "system.diagnostics.diagnosticsource.4.7.1.nupkg.sha512",
+        "system.diagnostics.diagnosticsource.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "AutoFactory >= 6.0.0",
+      "Autofac >= 6.3.0",
       "Newtonsoft.Json >= 13.0.1"
     ]
   },
@@ -53,11 +150,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj",
+      "projectUniqueName": "/home/maskedball/Documents/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj",
       "projectName": "LoggerReaderConsoleUI",
-      "projectPath": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj",
+      "projectPath": "/home/maskedball/Documents/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj",
       "packagesPath": "/home/maskedball/.nuget/packages/",
-      "outputPath": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/LoggerReaderConsoleUI/obj/",
+      "outputPath": "/home/maskedball/Documents/MeduzaNewsAggregator/LoggerReaderConsoleUI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/maskedball/.nuget/NuGet/NuGet.Config"
@@ -84,6 +181,14 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "AutoFactory": {
+            "target": "Package",
+            "version": "[6.0.0, )"
+          },
+          "Autofac": {
+            "target": "Package",
+            "version": "[6.3.0, )"
+          },
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.1, )"

@@ -437,11 +437,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/HeadingsLoggerMicroservice/HeadingsLoggerMicroservice.csproj",
+      "projectUniqueName": "/home/maskedball/Documents/MeduzaNewsAggregator/HeadingsLoggerMicroservice/HeadingsLoggerMicroservice.csproj",
       "projectName": "HeadingsLoggerMicroservice",
-      "projectPath": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/HeadingsLoggerMicroservice/HeadingsLoggerMicroservice.csproj",
+      "projectPath": "/home/maskedball/Documents/MeduzaNewsAggregator/HeadingsLoggerMicroservice/HeadingsLoggerMicroservice.csproj",
       "packagesPath": "/home/maskedball/.nuget/packages/",
-      "outputPath": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/HeadingsLoggerMicroservice/obj/",
+      "outputPath": "/home/maskedball/Documents/MeduzaNewsAggregator/HeadingsLoggerMicroservice/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/maskedball/.nuget/NuGet/NuGet.Config"

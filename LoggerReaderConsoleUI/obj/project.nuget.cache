@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "3HIGWhb66Wf6Vktq+8hug95Km2RTpq3Jz8Qr56EDcC/uwhRp53S3uWGU5jAuEV+GR0+yY93pDi75UqxRiqaweQ==",
+  "dgSpecHash": "nvtcV8rg/XeSvyqaGtdVAyZMqfxi7UyPjwEnqLKLVVs4D3mMEonc8+8R2LCd20Vt5s04/qqH3LKXjjqTJ+usOg==",
   "success": true,
-  "projectFilePath": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj",
+  "projectFilePath": "/home/maskedball/Documents/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj",
   "expectedPackageFiles": [
-    "/home/maskedball/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512"
+    "/home/maskedball/.nuget/packages/autofac/6.3.0/autofac.6.3.0.nupkg.sha512",
+    "/home/maskedball/.nuget/packages/autofactory/6.0.0/autofactory.6.0.0.nupkg.sha512",
+    "/home/maskedball/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
+    "/home/maskedball/.nuget/packages/system.diagnostics.diagnosticsource/4.7.1/system.diagnostics.diagnosticsource.4.7.1.nupkg.sha512"
   ],
   "logs": []
 }

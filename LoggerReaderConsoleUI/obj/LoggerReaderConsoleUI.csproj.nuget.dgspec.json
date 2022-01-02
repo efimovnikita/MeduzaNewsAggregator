@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/maskedball/RiderProjects/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj": {}
+    "/home/maskedball/Documents/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj": {}
   },
   "projects": {
-    "/home/maskedball/RiderProjects/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj": {
+    "/home/maskedball/Documents/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj",
+        "projectUniqueName": "/home/maskedball/Documents/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj",
         "projectName": "LoggerReaderConsoleUI",
-        "projectPath": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj",
+        "projectPath": "/home/maskedball/Documents/MeduzaNewsAggregator/LoggerReaderConsoleUI/LoggerReaderConsoleUI.csproj",
         "packagesPath": "/home/maskedball/.nuget/packages/",
-        "outputPath": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/LoggerReaderConsoleUI/obj/",
+        "outputPath": "/home/maskedball/Documents/MeduzaNewsAggregator/LoggerReaderConsoleUI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/maskedball/.nuget/NuGet/NuGet.Config"
@@ -38,6 +38,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "AutoFactory": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Autofac": {
+              "target": "Package",
+              "version": "[6.3.0, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
