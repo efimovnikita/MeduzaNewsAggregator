@@ -9,7 +9,7 @@ public class Application : IApplication
         _networkManager = networkManager;
     }
     
-    public async void Run()
+    public async Task Run()
     {
         var list = await _networkManager.GetResponseStringList("https://logs-river.herokuapp.com/Logs");
         var groups = list.GroupBy(s => s).ToList();
