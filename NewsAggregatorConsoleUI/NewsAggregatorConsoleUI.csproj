@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\HeadingsMicroservice\HeadingsMicroservice.csproj" />
+      <ProjectReference Include="..\LoggerReaderConsoleUI\LoggerReaderConsoleUI.csproj" />
     </ItemGroup>
 
 </Project>

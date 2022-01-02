@@ -1,8 +1,10 @@
 using HeadingsMicroservice.Models;
 
-public class HeadingUiRepresentation
+namespace NewsAggregatorConsoleUI;
+
+public class HeadingUi
 {
-    public HeadingUiRepresentation(string number, Heading heading)
+    public HeadingUi(string number, Heading heading)
     {
         Number = number;
         Heading = heading;
