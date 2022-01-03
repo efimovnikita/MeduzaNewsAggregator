@@ -1,4 +1,3 @@
-using System.IO.Compression;
 using HeadingsMicroservice.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -9,6 +8,15 @@ namespace HeadingsMicroservice.Controllers;
 [Route("[controller]")]
 public class Headings
 {
+#pragma warning disable CS8618
+    private static NetworkManager _networkManager;
+#pragma warning restore CS8618
+
+    public Headings()
+    {
+        _networkManager = new NetworkManager();
+    }
+
     [HttpGet("{category}/{count:int}")]
     public async Task<IEnumerable<Heading>> Get(string category = "news", int count = 10)
     {
@@ -18,25 +26,26 @@ public class Headings
 
     private static async Task<IEnumerable<Heading>> GetHeadings(string category)
     {
-        var uri = $"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page=0&per_page=100";
-        var client = new HttpClient();
-        var bytes = await client.GetByteArrayAsync(uri);
-        var json = await new StreamReader(new GZipStream(new MemoryStream(bytes), CompressionMode.Decompress))
-            .ReadToEndAsync();
-        var headings = JsonConvert.DeserializeObject<Data>(json);
-        
+        var response = await _networkManager.GetResponse($"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page=0&per_page=100");
+        var headings = JsonConvert.DeserializeObject<Data>(response);
+        return GetHeadingsList(category, headings);
+    }
+
+    private static IEnumerable<Heading> GetHeadingsList(string category, Data? headings)
+    {
         IEnumerable<Heading>? documents;
         if (category.Equals("news", StringComparison.InvariantCultureIgnoreCase))
         {
             documents = headings?.Documents
-                .Where(pair => pair.Value.Tag["name"].Equals("новости", StringComparison.InvariantCultureIgnoreCase))
+                .Where(pair => pair.Value.Tag["name"]
+                    .Equals("новости", StringComparison.InvariantCultureIgnoreCase))
                 .Select(pair => pair.Value);
         }
         else
         {
             documents = headings?.Documents.Select(pair => pair.Value);
         }
-        
-        return documents ?? new List<Heading>();
+
+        return documents ?? Array.Empty<Heading>();
     }
 }
