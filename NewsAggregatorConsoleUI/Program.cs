@@ -1,4 +1,7 @@
 ﻿using Autofac;
 using NewsAggregatorConsoleUI;
 
-ContainerConfig.Configure().Resolve<IApplication>().Run().Wait();
+var container = ContainerConfig.Configure();
+using var scope = container.BeginLifetimeScope();
+var application = scope.Resolve<IApplication>();
+application.Run().Wait();
