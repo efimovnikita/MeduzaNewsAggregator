@@ -11,6 +11,6 @@ public class HeadingUiFactory : IHeadingUiFactory
 
     public List<HeadingUi> GetHeadingUiList(IEnumerable<Heading> headings)
     {
-        return headings.ToList().Select((heading, i) => GetHeadingUi(i.ToString(), heading)).ToList();
+        return headings.ToList().Select((heading, i) => GetHeadingUi((i + 1).ToString(), heading)).ToList();
     }
 }
