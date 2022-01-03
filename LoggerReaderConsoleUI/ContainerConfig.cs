@@ -7,10 +7,12 @@ public static class ContainerConfig
     public static IContainer Configure()
     {
         var builder = new ContainerBuilder();
-        builder.RegisterType<Application>().As<IApplication>();
-        builder.RegisterType<NetworkManager>().As<INetworkManager>().SingleInstance();
-        builder.RegisterType<HttpClient>().AsSelf();
-        builder.RegisterType<UriBuilderFactory>().As<IUriBuilderFactory>();
+        builder.Register(context => new Application(context.Resolve<INetworkManager>()))
+            .As<IApplication>();
+        builder.Register(context => new NetworkManager(context.Resolve<IUriBuilderFactory>()))
+            .As<INetworkManager>();
+        builder.Register(_ => new HttpClient()).AsSelf();
+        builder.Register(_ => new UriBuilderFactory()).As<IUriBuilderFactory>();
 
         return builder.Build();
     }
