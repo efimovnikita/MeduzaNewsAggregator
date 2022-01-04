@@ -1,5 +1,4 @@
 using HeadingsLoggerMicroservice.Collector;
-using HeadingsLoggerMicroservice.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddGrpc();
 builder.Services.Add(ServiceDescriptor.Singleton<ILogCollector, LogCollector>());
 
 var app = builder.Build();
@@ -23,7 +21,5 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.MapGrpcService<LogService>();
 
 app.Run();
