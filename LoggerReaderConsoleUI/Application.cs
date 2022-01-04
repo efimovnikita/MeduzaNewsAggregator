@@ -21,6 +21,8 @@ public class Application : IApplication
         Console.WriteLine();
 
         PrintListToConsole(groupingHeadings);
+
+        Console.ReadLine();
     }
 
     private static void PrintListToConsole(IReadOnlyList<string> groupingHeadings)

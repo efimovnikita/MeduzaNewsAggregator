@@ -11,4 +11,10 @@ public class NetworkManager : INetworkManager
         return await new StreamReader(new GZipStream(new MemoryStream(bytes), CompressionMode.Decompress))
             .ReadToEndAsync();
     }
+
+    public async Task SendPostRequest(string url)
+    {
+        var client = new HttpClient();
+        await client.PostAsync(url, null);
+    }
 }
