@@ -2,7 +2,7 @@ using System.IO.Compression;
 
 namespace HeadingsMicroservice.Controllers;
 
-public class NetworkManager : INetworkManager
+public class HttpClientNetworkService : INetworkService
 {
     public async Task<string> GetResponse(string url)
     {

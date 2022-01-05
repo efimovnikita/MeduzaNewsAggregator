@@ -9,12 +9,12 @@ namespace FullArticlesMicroservice.Controllers;
 [Route("[controller]")]
 public class Articles
 {
-    private readonly INetworkManager _networkManager;
+    private readonly INetworkService _networkService;
     private readonly IHtmlParser _htmlParser;
 
-    public Articles(INetworkManager networkManager, IHtmlParser htmlParser)
+    public Articles(INetworkService networkService, IHtmlParser htmlParser)
     {
-        _networkManager = networkManager;
+        _networkService = networkService;
         _htmlParser = htmlParser;
     }
     
@@ -26,7 +26,7 @@ public class Articles
 
     private async Task<string> GetArticle(string url)
     {
-        var json = await _networkManager.GetResponse($"https://meduza.io/api/v3/{url}");
+        var json = await _networkService.GetResponse($"https://meduza.io/api/v3/{url}");
         var article = JsonConvert.DeserializeObject<Data>(json);
         
         if (article is null)
@@ -34,7 +34,7 @@ public class Articles
             return string.Empty;
         }
         
-        await _networkManager.SendPostRequest($"https://logs-river.herokuapp.com/Logs?item={article.Root.Title}");
+        await _networkService.SendPostRequest($"https://logs-river.herokuapp.com/Logs?item={article.Root.Title}");
         return await _htmlParser.ProcessArticleBody(article);
     }
 }

@@ -9,7 +9,7 @@ public static class ExtensionMethods
     public static IServiceCollection AddMicroserviceDependencies(this IServiceCollection services)
     {
         services.Add(ServiceDescriptor.Transient<IHtmlParser, HtmlParser>());
-        services.Add(ServiceDescriptor.Transient<INetworkManager, NetworkManager>());
+        services.Add(ServiceDescriptor.Transient<INetworkService, HttpClientNetworkService>());
         return services;
     }
 }

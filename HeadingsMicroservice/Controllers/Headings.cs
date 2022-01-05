@@ -9,12 +9,12 @@ namespace HeadingsMicroservice.Controllers;
 public class Headings
 {
 #pragma warning disable CS8618
-    private static NetworkManager _networkManager;
+    private static HttpClientNetworkService _httpClientNetworkService;
 #pragma warning restore CS8618
 
     public Headings()
     {
-        _networkManager = new NetworkManager();
+        _httpClientNetworkService = new HttpClientNetworkService();
     }
 
     [HttpGet("{category}/{count:int}")]
@@ -26,7 +26,7 @@ public class Headings
 
     private static async Task<IEnumerable<Heading>> GetHeadings(string category)
     {
-        var response = await _networkManager.GetResponse($"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page=0&per_page=100");
+        var response = await _httpClientNetworkService.GetResponse($"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page=0&per_page=100");
         var headings = JsonConvert.DeserializeObject<Data>(response);
         return GetHeadingsList(category, headings);
     }
