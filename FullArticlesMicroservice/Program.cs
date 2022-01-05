@@ -1,5 +1,4 @@
-using FullArticlesMicroservice.Controllers;
-using HeadingsMicroservice.Controllers;
+using FullArticlesMicroservice;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +8,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.Add(ServiceDescriptor.Transient<IHtmlParser, HtmlParser>());
-builder.Services.Add(ServiceDescriptor.Transient<INetworkManager, NetworkManager>());
+builder.Services.AddMicroserviceDependencies();
 
 var app = builder.Build();
 
