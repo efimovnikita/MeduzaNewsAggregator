@@ -1,6 +1,6 @@
 using RestSharp;
 
-namespace HeadingsMicroservice.Controllers;
+namespace HeadingsMicroservice.Services;
 
 public class RestSharpNetworkService : INetworkService
 {
@@ -17,6 +17,22 @@ public class RestSharpNetworkService : INetworkService
     {
         var client = new RestClient(url);
         var request = new RestRequest();
+        await client.PostAsync<Task>(request);
+    }
+
+    public async Task SendPostRequestWithJsonBody<T>(string url, T model)
+    {
+        if (model == null)
+        {
+            throw new NullReferenceException("Model can not be null");
+        }
+        
+        var client = new RestClient(url);
+        var request = new RestRequest
+        {
+            RequestFormat = DataFormat.Json
+        };
+        request.AddJsonBody(model);
         await client.PostAsync<Task>(request);
     }
 }

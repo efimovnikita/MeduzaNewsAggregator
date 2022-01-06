@@ -1,4 +1,4 @@
-using HeadingsMicroservice.Controllers;
+using HeadingsMicroservice.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

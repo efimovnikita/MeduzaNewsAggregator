@@ -1,7 +1,8 @@
 using FullArticlesMicroservice.Models;
+using FullArticlesMicroservice.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using HeadingsMicroservice.Controllers;
+using HeadingsMicroservice.Services;
 
 namespace FullArticlesMicroservice.Controllers;
 
@@ -10,12 +11,14 @@ namespace FullArticlesMicroservice.Controllers;
 public class Articles
 {
     private readonly INetworkService _networkService;
-    private readonly IHtmlParser _htmlParser;
+    private readonly IHtmlParserService _htmlParserService;
+    private readonly ILogMessageModel _logMessageModel;
 
-    public Articles(INetworkService networkService, IHtmlParser htmlParser)
+    public Articles(INetworkService networkService, IHtmlParserService htmlParserService, ILogMessageModel logMessageModel)
     {
         _networkService = networkService;
-        _htmlParser = htmlParser;
+        _htmlParserService = htmlParserService;
+        _logMessageModel = logMessageModel;
     }
     
     [HttpGet("{url}")]
@@ -34,7 +37,8 @@ public class Articles
             return string.Empty;
         }
         
-        await _networkService.SendPostRequest($"https://logs-river.herokuapp.com/Logs?item={article.Root.Title}");
-        return await _htmlParser.ProcessArticleBody(article);
+        _logMessageModel.Title = article.Root.Title;
+        await _networkService.SendPostRequestWithJsonBody("https://logs-river.herokuapp.com/Logs", _logMessageModel);
+        return await _htmlParserService.ProcessArticleBody(article);
     }
 }

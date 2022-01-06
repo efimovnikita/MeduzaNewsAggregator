@@ -3,9 +3,9 @@ using AngleSharp;
 using AngleSharp.Dom;
 using FullArticlesMicroservice.Models;
 
-namespace FullArticlesMicroservice.Controllers;
+namespace FullArticlesMicroservice.Services;
 
-public class HtmlParser : IHtmlParser
+public class AngleSharpParser : IHtmlParserService
 {
     public async Task<string> ProcessArticleBody(Data article)
     {

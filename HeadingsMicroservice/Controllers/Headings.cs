@@ -1,4 +1,5 @@
 using HeadingsMicroservice.Models;
+using HeadingsMicroservice.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 

@@ -1,8 +1,8 @@
 using FullArticlesMicroservice.Models;
 
-namespace FullArticlesMicroservice.Controllers;
+namespace FullArticlesMicroservice.Services;
 
-public interface IHtmlParser
+public interface IHtmlParserService
 {
     Task<string> ProcessArticleBody(Data article);
 }

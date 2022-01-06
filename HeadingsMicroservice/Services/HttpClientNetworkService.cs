@@ -1,6 +1,6 @@
 using System.IO.Compression;
 
-namespace HeadingsMicroservice.Controllers;
+namespace HeadingsMicroservice.Services;
 
 public class HttpClientNetworkService : INetworkService
 {
@@ -16,5 +16,10 @@ public class HttpClientNetworkService : INetworkService
     {
         var client = new HttpClient();
         await client.PostAsync(url, null);
+    }
+
+    public Task SendPostRequestWithJsonBody<T>(string url, T model)
+    {
+        throw new NotImplementedException();
     }
 }

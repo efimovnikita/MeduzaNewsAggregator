@@ -1,3 +1,4 @@
+using FullArticlesMicroservice.Models;
 using HeadingsLoggerMicroservice.Collector;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,8 +21,11 @@ public class Logs
     }
 
     [HttpPost]
-    public void AddLogItem(string item)
+    public void AddLogItem([FromBody]LogMessageModel? logMessage)
     {
-        _collector.HeadingsLogList.Add(item);
+        if (logMessage is not null)
+        {
+            _collector.HeadingsLogList.Add(logMessage.Title);
+        }
     }
 }
