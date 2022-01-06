@@ -21,11 +21,14 @@ public class Logs
     }
 
     [HttpPost]
-    public void AddLogItem([FromBody]LogMessageModel? logMessage)
+    public int AddLogItem([FromBody]LogMessageModel? logMessage)
     {
-        if (logMessage is not null)
+        if (logMessage is null)
         {
-            _collector.HeadingsLogList.Add(logMessage.Title);
+            return StatusCodes.Status500InternalServerError;
         }
+
+        _collector.HeadingsLogList.Add(logMessage.Title);
+        return StatusCodes.Status201Created;
     }
 }
