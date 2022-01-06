@@ -8,16 +8,16 @@ public class RestSharpNetworkService : INetworkService
     {
         var client = new RestClient(url);
         var request = new RestRequest();
-        var response = await client.GetAsync<string>(request);
+        var response = await client.ExecuteGetAsync<string>(request);
 
-        return response;
+        return response.Content;
     }
 
     public async Task SendPostRequest(string url)
     {
         var client = new RestClient(url);
         var request = new RestRequest();
-        await client.PostAsync<Task>(request);
+        await client.ExecutePostAsync(request);
     }
 
     public async Task SendPostRequestWithJsonBody<T>(string url, T model)
@@ -33,6 +33,6 @@ public class RestSharpNetworkService : INetworkService
             RequestFormat = DataFormat.Json
         };
         request.AddJsonBody(model);
-        await client.PostAsync<Task>(request);
+        await client.ExecutePostAsync(request);
     }
 }
