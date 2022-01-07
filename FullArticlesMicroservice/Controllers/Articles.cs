@@ -12,13 +12,11 @@ public class Articles
 {
     private readonly INetworkService _networkService;
     private readonly IHtmlParserService _htmlParserService;
-    private readonly ILogMessageModel _logMessageModel;
 
-    public Articles(INetworkService networkService, IHtmlParserService htmlParserService, ILogMessageModel logMessageModel)
+    public Articles(INetworkService networkService, IHtmlParserService htmlParserService)
     {
         _networkService = networkService;
         _htmlParserService = htmlParserService;
-        _logMessageModel = logMessageModel;
     }
     
     [HttpGet("{url}")]
@@ -36,9 +34,9 @@ public class Articles
         {
             return string.Empty;
         }
-        
-        _logMessageModel.Title = article.Root.Title;
-        await _networkService.SendPostRequestWithJsonBody("https://logs-river.herokuapp.com/Logs", _logMessageModel);
+
+        var logMessageModel = new LogMessageModel(article.Root.Title);
+        await _networkService.SendPostRequestWithJsonBody("https://logs-river.herokuapp.com/Logs", logMessageModel);
         return await _htmlParserService.ProcessArticleBody(article);
     }
 }

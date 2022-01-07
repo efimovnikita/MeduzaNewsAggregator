@@ -1,8 +1,11 @@
 namespace FullArticlesMicroservice.Models;
 
-public class LogMessageModel : ILogMessageModel
+public class LogMessageModel
 {
-#pragma warning disable CS8618
+    public LogMessageModel(string title)
+    {
+        Title = title;
+    }
+
     public string Title { get; set; }
-#pragma warning restore CS8618
 }

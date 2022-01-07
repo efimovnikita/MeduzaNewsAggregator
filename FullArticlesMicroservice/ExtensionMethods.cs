@@ -10,7 +10,6 @@ public static class ExtensionMethods
     {
         services.Add(ServiceDescriptor.Transient<IHtmlParserService, AngleSharpParser>());
         services.Add(ServiceDescriptor.Transient<INetworkService, RestSharpNetworkService>());
-        services.Add(ServiceDescriptor.Transient<ILogMessageModel, LogMessageModel>());
         return services;
     }
 }
