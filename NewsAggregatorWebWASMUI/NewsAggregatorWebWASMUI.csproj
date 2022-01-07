@@ -16,5 +16,11 @@
   <ItemGroup>
     <None Include="wwwroot\loading.gif" />
   </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="publish\publish\Shared\package.json" />
+    <_ContentIncludedByDefault Remove="publish\publish\wwwroot\sample-data\weather.json" />
+    <_ContentIncludedByDefault Remove="publish\publish\wwwroot\_framework\blazor.boot.json" />
+  </ItemGroup>
   
 </Project>
