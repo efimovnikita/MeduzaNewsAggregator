@@ -1,0 +1,76 @@
+@page "/"
+@using NewsAggregatorWebWASMUI.Models
+@using Newtonsoft.Json
+@inject Services.INetworkService _networkService
+
+<PageTitle>Новости</PageTitle>
+
+<h3>Новости</h3>
+<div style="margin-bottom: 25px; margin-top: 25px">
+    <div>
+        <label for="category">Категория:</label>
+        <select name="category" id="category" @onchange="CategorySelectChange">
+            <option value="news">Новости</option>
+            <option value="articles">Истории</option>
+            <option value="shapito">Шапито</option>
+        </select>
+    </div>
+    <div>
+        <label for="count">Количество:</label>
+        <select name="count" id="count" @onchange="CountSelectChange">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </div>
+    <div>
+        <button style="border: 1px solid black; border-radius: 3px; background: white;" @onclick="ShowHeadings">Показать</button>
+    </div>
+</div>
+
+@if (ShowSpinner)
+{
+    <Spinner/>
+}
+
+@if (_showHeadingsList)
+{
+    <HeadingsListComponent Headings="_headings"/>
+}
+
+@code {
+    private bool _showHeadingsList;
+    private List<Heading> _headings = new();
+    private string? _category = "news";
+    private string _count = "10";
+    
+    private bool ShowSpinner { get; set; }
+
+    private async Task ShowHeadings()
+    {
+        _showHeadingsList = false;
+        ShowSpinner = true;
+        var responseString =
+            await _networkService.GetResponse(
+                $"https://headings-river.herokuapp.com/Headings/{_category}/{_count}");
+        _headings = JsonConvert.DeserializeObject<IEnumerable<Heading>>(responseString)?.ToList() ??
+                    new List<Heading>();
+        if (_headings.Count > 0)
+        {
+            _showHeadingsList = true;
+        }
+        ShowSpinner = false;
+    }
+
+    private void CategorySelectChange(ChangeEventArgs changeEvent)
+    {
+        _category = (string) changeEvent.Value!;
+    }
+
+    private void CountSelectChange(ChangeEventArgs changeEvent)
+    {
+        _count = (string) changeEvent.Value!;
+    }
+
+}

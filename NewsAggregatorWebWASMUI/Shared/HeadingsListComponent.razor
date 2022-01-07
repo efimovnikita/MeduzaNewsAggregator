@@ -1,0 +1,14 @@
+@using NewsAggregatorWebWASMUI.Models
+<ol>
+    @foreach (var heading in Headings ?? new List<Heading>())
+    {
+        <li>
+            <HeadingComponent Title="@heading.Title" Url="@heading.Url"/>
+        </li>
+    }
+</ol>
+
+@code {
+    [Parameter]
+    public List<Heading>? Headings { get; set; }
+}

@@ -1,0 +1,44 @@
+@inject Services.INetworkService _networkService
+<div>
+    <div style="cursor: pointer" @onclick="GetArticle">@Title</div>
+    @if (ShowSpinner)
+    {
+        <div>
+            <Spinner/>
+        </div>
+    }
+    @if (ShowText && !string.IsNullOrEmpty(Text))
+    {
+        <div style="padding: 10px; color: #4f5050">@Text</div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string? Title { get; set; }
+    
+    [Parameter]
+    public string? Text { get; set; }
+    
+    [Parameter]
+    public string? Url { get; set; } 
+
+    private bool ShowText { get; set; } 
+
+    private bool ShowSpinner { get; set; } 
+
+    private async Task GetArticle()
+    {
+        if (Url is not null && string.IsNullOrEmpty(Text))
+        {
+            ShowSpinner = true;
+            var articleResponse =
+                await _networkService.GetResponse(
+                    $"https://articles-river.herokuapp.com/Articles/{Url.Replace("/", "%2f")}");
+            ShowSpinner = false;
+            Text = articleResponse;
+        }
+        
+        ShowText = !ShowText;
+    }
+}
