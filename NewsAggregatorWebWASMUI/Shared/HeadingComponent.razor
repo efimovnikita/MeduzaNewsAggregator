@@ -1,4 +1,6 @@
 @inject Services.INetworkService _networkService
+@inject Services.ICache _cache;
+
 <div>
     <div style="cursor: pointer" @onclick="GetArticle">@Title</div>
     @if (ShowSpinner)
@@ -32,11 +34,22 @@
         if (Url is not null && string.IsNullOrEmpty(Text))
         {
             ShowSpinner = true;
-            var articleResponse =
-                await _networkService.GetResponse(
-                    $"https://articles-river.herokuapp.com/Articles/{Url.Replace("/", "%2f")}");
+
+            if (_cache.Cache.ContainsKey(Url))
+            {
+                _cache.Cache.TryGetValue(Url, out var text);
+                Text = text;
+            }
+            else
+            {
+                var articleResponse =
+                    await _networkService.GetResponse(
+                        $"https://articles-river.herokuapp.com/Articles/{Url.Replace("/", "%2f")}");
+                _cache.Cache.TryAdd(Url, articleResponse);
+                Text = articleResponse;
+            }
+
             ShowSpinner = false;
-            Text = articleResponse;
         }
         
         ShowText = !ShowText;
