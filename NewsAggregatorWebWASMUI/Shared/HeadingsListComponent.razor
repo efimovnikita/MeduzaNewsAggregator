@@ -2,7 +2,7 @@
 <ol>
     @foreach (var heading in Headings ?? new List<Heading>())
     {
-        <li>
+        <li style="margin-bottom: 5px">
             <HeadingComponent Title="@heading.Title" Url="@heading.Url"/>
         </li>
     }

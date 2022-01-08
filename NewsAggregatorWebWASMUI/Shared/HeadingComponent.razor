@@ -2,7 +2,7 @@
 @inject Services.ICache _cache;
 
 <div>
-    <div style="cursor: pointer" @onclick="GetArticle">@Title</div>
+    <div style="cursor: pointer; text-decoration: underline" @onclick="GetArticle">@Title</div>
     @if (ShowSpinner)
     {
         <div>
