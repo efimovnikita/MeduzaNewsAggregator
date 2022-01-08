@@ -1,5 +1,5 @@
 @inject Services.INetworkService _networkService
-@inject Services.ICache _cache;
+@inject Blazored.LocalStorage.ILocalStorageService _localStorage
 
 <div>
     <div style="cursor: pointer; text-decoration: underline" @onclick="GetArticle">@Title</div>
@@ -35,17 +35,16 @@
         {
             ShowSpinner = true;
 
-            if (_cache.Cache.ContainsKey(Url))
+            if (!string.IsNullOrEmpty(await _localStorage.GetItemAsStringAsync(Url)))
             {
-                _cache.Cache.TryGetValue(Url, out var text);
-                Text = text;
+                Text = await _localStorage.GetItemAsStringAsync(Url);
             }
             else
             {
                 var articleResponse =
                     await _networkService.GetResponse(
                         $"https://articles-river.herokuapp.com/Articles/{Url.Replace("/", "%2f")}");
-                _cache.Cache.TryAdd(Url, articleResponse);
+                await _localStorage.SetItemAsStringAsync(Url, articleResponse);
                 Text = articleResponse;
             }
 

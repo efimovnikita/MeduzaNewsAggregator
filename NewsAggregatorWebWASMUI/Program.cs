@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using NewsAggregatorWebWASMUI;
@@ -8,7 +9,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddTransient<INetworkService, HttpClientNetworkService>();
-builder.Services.AddSingleton<ICache, CacheService>();
 builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddBlazoredLocalStorage();
 
 await builder.Build().RunAsync();
