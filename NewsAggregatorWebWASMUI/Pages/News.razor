@@ -9,7 +9,7 @@
 <div style="margin-bottom: 25px; margin-top: 25px">
     <div>
         <label for="category">Категория:</label>
-        <select name="category" id="category" @onchange="CategorySelectChange">
+        <select name="category" id="category" @bind="_category" @bind:event="onchange">
             <option value="news">Новости</option>
             <option value="articles">Истории</option>
             <option value="shapito">Шапито</option>
@@ -17,7 +17,7 @@
     </div>
     <div>
         <label for="count">Количество:</label>
-        <select name="count" id="count" @onchange="CountSelectChange">
+        <select name="count" id="count" @bind="_count" @bind:event="onchange">
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="50">50</option>
@@ -62,15 +62,4 @@
         }
         ShowSpinner = false;
     }
-
-    private void CategorySelectChange(ChangeEventArgs changeEvent)
-    {
-        _category = (string) changeEvent.Value!;
-    }
-
-    private void CountSelectChange(ChangeEventArgs changeEvent)
-    {
-        _count = (string) changeEvent.Value!;
-    }
-
 }
