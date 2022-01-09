@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.RegularExpressions;
 using AngleSharp;
 using AngleSharp.Dom;
@@ -23,8 +24,27 @@ public class AngleSharpParser : IHtmlParserService
 
         RemoveScriptTags(document);
 
-        var result = CleanString(body);
+        var cleanString = CleanString(body);
+        var result = SplitIntoParagraphs(cleanString, 6);
         return result;
+    }
+
+    private string SplitIntoParagraphs(string text, int sentencesCountInParagraph)
+    {
+        char[] arrSplitChars = { '.', '?', '!' };
+        var splitSentences = text.Split(arrSplitChars,StringSplitOptions.RemoveEmptyEntries);
+
+        var sb = new StringBuilder();
+        for (var i = 0; i < splitSentences.Length; i++)
+        {
+            sb.Append($"{splitSentences[i].Trim()}. ");
+            if (i % sentencesCountInParagraph == 0)
+            {
+                sb.Append("\n\n");
+            }
+        }
+
+        return sb.ToString().Trim();
     }
 
     private string CleanString(INode body)
