@@ -11,61 +11,61 @@ build_property.EnableTrimAnalyzer = true
 build_property.IncludeAllContentForSelfExtract = 
 build_property.RootNamespace = NewsAggregatorWebWASMUI
 build_property.RootNamespace = NewsAggregatorWebWASMUI
-build_property.ProjectDir = /home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/
+build_property.ProjectDir = /home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI
+build_property.MSBuildProjectDirectory = /home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI
 build_property._RazorSourceGeneratorDebug = 
 
-[/home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/App.razor]
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Pages/Counter.razor]
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Pages/FetchData.razor]
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Pages/FetchData.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRmV0Y2hEYXRhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Pages/Index.razor]
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Pages/Logs.razor]
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Pages/Logs.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9ncy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Pages/News.razor]
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Pages/News.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTmV3cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/HeadingComponent.razor]
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/HeadingComponent.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL0hlYWRpbmdDb21wb25lbnQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/HeadingsListComponent.razor]
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/HeadingsListComponent.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL0hlYWRpbmdzTGlzdENvbXBvbmVudC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/Spinner.razor]
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/Spinner.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL1NwaW5uZXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/SurveyPrompt.razor]
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/SurveyPrompt.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL1N1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/_Imports.razor]
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/MainLayout.razor]
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-3zebmw5auy
 
-[/home/maskedball/Documents/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/NavMenu.razor]
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL05hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-ninjth1yba

@@ -11,23 +11,31 @@
     }
     @if (ShowText && !string.IsNullOrEmpty(Text))
     {
-        <div style="padding: 10px; color: #4f5050">@Text</div>
+        <div style="padding: 10px; color: #4f5050">
+            <div>@Text</div>
+            <div style="margin-top: 10px; text-transform: lowercase">
+                <a href="@FullUrl" target="_blank">Ссылка на материал</a>
+            </div>
+        </div>
     }
 </div>
 
 @code {
+
     [Parameter]
     public string? Title { get; set; }
-    
+
     [Parameter]
     public string? Text { get; set; }
-    
+
     [Parameter]
-    public string? Url { get; set; } 
+    public string? Url { get; set; }
 
-    private bool ShowText { get; set; } 
+    private string FullUrl => $"https://meduza.io/{Url}";
 
-    private bool ShowSpinner { get; set; } 
+    private bool ShowText { get; set; }
+
+    private bool ShowSpinner { get; set; }
 
     private async Task GetArticle()
     {
@@ -49,7 +57,8 @@
 
             ShowSpinner = false;
         }
-        
+
         ShowText = !ShowText;
     }
+
 }
