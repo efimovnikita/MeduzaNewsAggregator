@@ -9,25 +9,23 @@ namespace HeadingsMicroservice.Controllers;
 [Route("[controller]")]
 public class Headings
 {
-#pragma warning disable CS8618
-    private static HttpClientNetworkService _httpClientNetworkService;
-#pragma warning restore CS8618
+    private readonly INetworkService _networkService;
 
-    public Headings()
+    public Headings(INetworkService networkService)
     {
-        _httpClientNetworkService = new HttpClientNetworkService();
+        _networkService = networkService;
     }
 
-    [HttpGet("{category}/{count:int}")]
-    public async Task<IEnumerable<Heading>> Get(string category = "news", int count = 10)
+    [HttpGet("{category}")]
+    public async Task<IEnumerable<Heading>> Get(string category = "news")
     {
         var headings = await GetHeadings(category);
-        return headings.Take(count);
+        return headings;
     }
 
-    private static async Task<IEnumerable<Heading>> GetHeadings(string category)
+    private async Task<IEnumerable<Heading>> GetHeadings(string category)
     {
-        var response = await _httpClientNetworkService.GetResponse($"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page=0&per_page=100");
+        var response = await _networkService.GetResponse($"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page=0&per_page=24");
         var headings = JsonConvert.DeserializeObject<Data>(response);
         return GetHeadingsList(category, headings);
     }

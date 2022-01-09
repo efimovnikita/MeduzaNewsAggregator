@@ -1,6 +1,5 @@
 @page "/logs"
-@using Newtonsoft.Json
-@inject Services.INetworkService _networkService
+@inject HttpClient _httpClient
 
 <PageTitle>Просматриваемые статьи</PageTitle>
 
@@ -36,8 +35,9 @@
 
     private async Task GetLogs()
     {
-        var response = await _networkService.GetResponse("https://logs-river.herokuapp.com/Logs");
-        var responseList = JsonConvert.DeserializeObject<List<string>>(response) ?? Array.Empty<string>().ToList();
+        var responseList = await _httpClient
+            .GetFromJsonAsync<List<string>>("https://logs-river.herokuapp.com/Logs") 
+                           ?? Array.Empty<string>().ToList();
 
         if (responseList.Count > 0)
         {

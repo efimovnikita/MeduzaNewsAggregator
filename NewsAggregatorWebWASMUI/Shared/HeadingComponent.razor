@@ -1,4 +1,4 @@
-@inject Services.INetworkService _networkService
+@inject HttpClient _httpClient
 @inject Blazored.LocalStorage.ILocalStorageService _localStorage
 
 <div>
@@ -41,9 +41,8 @@
             }
             else
             {
-                var articleResponse =
-                    await _networkService.GetResponse(
-                        $"https://articles-river.herokuapp.com/Articles/{Url.Replace("/", "%2f")}");
+                var articleResponse = await _httpClient
+                    .GetStringAsync($"https://articles-river.herokuapp.com/Articles/{Url.Replace("/", "%2f")}");
                 await _localStorage.SetItemAsStringAsync(Url, articleResponse);
                 Text = articleResponse;
             }
