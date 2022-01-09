@@ -1,6 +1,6 @@
 using RestSharp;
 
-namespace HeadingsMicroservice.Services;
+namespace Common.Services;
 
 public class RestSharpNetworkService : INetworkService
 {

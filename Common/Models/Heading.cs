@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace HeadingsMicroservice.Models;
+namespace Common.Models;
 
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 [SuppressMessage("ReSharper", "InconsistentNaming")]

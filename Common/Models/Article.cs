@@ -1,7 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
+
 #pragma warning disable CS8618
 
-namespace FullArticlesMicroservice.Models;
+namespace Common.Models;
 
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 [SuppressMessage("ReSharper", "CollectionNeverUpdated.Global")]

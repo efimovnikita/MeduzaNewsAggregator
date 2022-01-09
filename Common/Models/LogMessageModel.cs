@@ -1,4 +1,4 @@
-namespace FullArticlesMicroservice.Models;
+namespace Common.Models;
 
 public class LogMessageModel
 {

@@ -1,4 +1,4 @@
-using HeadingsLoggerMicroservice.Collector;
+using Common.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

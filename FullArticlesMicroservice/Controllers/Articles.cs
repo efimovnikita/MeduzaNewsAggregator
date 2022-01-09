@@ -1,8 +1,7 @@
-using FullArticlesMicroservice.Models;
-using FullArticlesMicroservice.Services;
+using Common.Models;
+using Common.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using HeadingsMicroservice.Services;
 
 namespace FullArticlesMicroservice.Controllers;
 
@@ -28,7 +27,7 @@ public class Articles
     private async Task<string> GetArticle(string url)
     {
         var json = await _networkService.GetResponse($"https://meduza.io/api/v3/{url}");
-        var article = JsonConvert.DeserializeObject<Data>(json);
+        var article = JsonConvert.DeserializeObject<ArticleData>(json);
         
         if (article is null)
         {

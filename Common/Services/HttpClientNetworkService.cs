@@ -1,6 +1,6 @@
 using System.IO.Compression;
 
-namespace HeadingsMicroservice.Services;
+namespace Common.Services;
 
 public class HttpClientNetworkService : INetworkService
 {

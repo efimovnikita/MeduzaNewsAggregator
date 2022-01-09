@@ -31,5 +31,9 @@
     <_ContentIncludedByDefault Remove="release\wwwroot\sample-data\weather.json" />
     <_ContentIncludedByDefault Remove="release\wwwroot\_framework\blazor.boot.json" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+  </ItemGroup>
   
 </Project>

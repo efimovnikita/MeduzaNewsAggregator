@@ -1,4 +1,4 @@
-namespace HeadingsMicroservice.Services;
+namespace Common.Services;
 
 public interface INetworkService
 {

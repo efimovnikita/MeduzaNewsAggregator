@@ -1,9 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace HeadingsMicroservice.Models;
+namespace Common.Models;
 
 [SuppressMessage("ReSharper", "CollectionNeverUpdated.Global")]
-public class Data
+public class HeadingsData
 {
     public Dictionary<string, Heading> Documents { get; } = new();
 }

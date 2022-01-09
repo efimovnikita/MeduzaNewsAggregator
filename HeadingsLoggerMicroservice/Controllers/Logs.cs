@@ -1,5 +1,5 @@
-using FullArticlesMicroservice.Models;
-using HeadingsLoggerMicroservice.Collector;
+using Common.Models;
+using Common.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HeadingsLoggerMicroservice.Controllers;

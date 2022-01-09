@@ -1,6 +1,4 @@
-using FullArticlesMicroservice.Models;
-using FullArticlesMicroservice.Services;
-using HeadingsMicroservice.Services;
+using Common.Services;
 
 namespace FullArticlesMicroservice;
 

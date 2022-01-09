@@ -1,5 +1,5 @@
-using HeadingsMicroservice.Models;
-using HeadingsMicroservice.Services;
+using Common.Models;
+using Common.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -26,11 +26,11 @@ public class Headings
     private async Task<IEnumerable<Heading>> GetHeadings(string category)
     {
         var response = await _networkService.GetResponse($"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page=0&per_page=24");
-        var headings = JsonConvert.DeserializeObject<Data>(response);
+        var headings = JsonConvert.DeserializeObject<HeadingsData>(response);
         return GetHeadingsList(category, headings);
     }
 
-    private static IEnumerable<Heading> GetHeadingsList(string category, Data? headings)
+    private static IEnumerable<Heading> GetHeadingsList(string category, HeadingsData? headings)
     {
         IEnumerable<Heading>? documents;
         if (category.Equals("news", StringComparison.InvariantCultureIgnoreCase))

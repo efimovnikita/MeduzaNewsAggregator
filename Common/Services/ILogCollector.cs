@@ -1,4 +1,4 @@
-namespace HeadingsLoggerMicroservice.Collector;
+namespace Common.Services;
 
 public interface ILogCollector
 {

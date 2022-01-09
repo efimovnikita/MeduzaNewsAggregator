@@ -1,21 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/maskedball/Documents/MeduzaNewsAggregator/Common/Common.csproj": {}
+    "/home/maskedball/RiderProjects/MeduzaNewsAggregator/Common/Common.csproj": {}
   },
   "projects": {
-    "/home/maskedball/Documents/MeduzaNewsAggregator/Common/Common.csproj": {
+    "/home/maskedball/RiderProjects/MeduzaNewsAggregator/Common/Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/maskedball/Documents/MeduzaNewsAggregator/Common/Common.csproj",
+        "projectUniqueName": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/Common/Common.csproj",
         "projectName": "Common",
-        "projectPath": "/home/maskedball/Documents/MeduzaNewsAggregator/Common/Common.csproj",
+        "projectPath": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/Common/Common.csproj",
         "packagesPath": "/home/maskedball/.nuget/packages/",
-        "outputPath": "/home/maskedball/Documents/MeduzaNewsAggregator/Common/obj/",
+        "outputPath": "/home/maskedball/RiderProjects/MeduzaNewsAggregator/Common/obj/",
         "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/maskedball/.nuget/NuGet/NuGet.Config"
+        ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
@@ -31,6 +37,24 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "AngleSharp": {
+              "target": "Package",
+              "version": "[0.16.1, )"
+            },
+            "AngleSharp.Js": {
+              "target": "Package",
+              "version": "[0.15.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "RestSharp": {
+              "target": "Package",
+              "version": "[106.15.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

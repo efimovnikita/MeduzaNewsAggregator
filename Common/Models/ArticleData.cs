@@ -1,10 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable CS8618
-namespace FullArticlesMicroservice.Models;
+namespace Common.Models;
 
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-public class Data
+public class ArticleData
 {
     public Article Root { get; set; }
 }

@@ -2,13 +2,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AngleSharp;
 using AngleSharp.Dom;
-using FullArticlesMicroservice.Models;
+using Common.Models;
 
-namespace FullArticlesMicroservice.Services;
+namespace Common.Services;
 
 public class AngleSharpParser : IHtmlParserService
 {
-    public async Task<string> ProcessArticleBody(Data article)
+    public async Task<string> ProcessArticleBody(ArticleData article)
     {
         var contentBody = article.Root.Content.Body;
 
