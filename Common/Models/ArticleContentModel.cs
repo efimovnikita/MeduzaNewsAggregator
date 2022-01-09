@@ -5,7 +5,7 @@ namespace Common.Models;
 
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-public class Content
+public class ArticleContentModel
 {
     public string Body { get; set; }
 }

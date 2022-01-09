@@ -1,5 +1,4 @@
 using Common.Models;
-using Common.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -9,30 +8,39 @@ namespace HeadingsMicroservice.Controllers;
 [Route("[controller]")]
 public class Headings
 {
-    private readonly INetworkService _networkService;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public Headings(INetworkService networkService)
+    public Headings(IHttpClientFactory httpClientFactory)
     {
-        _networkService = networkService;
+        _httpClientFactory = httpClientFactory;
     }
 
     [HttpGet("{category}")]
-    public async Task<IEnumerable<Heading>> Get(string category = "news")
+    public async Task<IEnumerable<HeadingModel>> Get(string category = "news")
     {
         var headings = await GetHeadings(category);
         return headings;
     }
 
-    private async Task<IEnumerable<Heading>> GetHeadings(string category)
+    private async Task<IEnumerable<HeadingModel>> GetHeadings(string category)
     {
-        var response = await _networkService.GetResponse($"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page=0&per_page=24");
-        var headings = JsonConvert.DeserializeObject<HeadingsData>(response);
-        return GetHeadingsList(category, headings);
+        var httpClient = _httpClientFactory.CreateClient();
+        var responseMessage = await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get,
+            $"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page=0&per_page=24"));
+
+        if (responseMessage.IsSuccessStatusCode == false)
+        {
+            return new List<HeadingModel>();
+        }
+
+        var contentString = await responseMessage.Content.ReadAsStringAsync();
+        var headingsData = JsonConvert.DeserializeObject<HeadingsDataModel>(contentString);
+        return GetHeadingsList(category, headingsData);
     }
 
-    private static IEnumerable<Heading> GetHeadingsList(string category, HeadingsData? headings)
+    private static IEnumerable<HeadingModel> GetHeadingsList(string category, HeadingsDataModel? headings)
     {
-        IEnumerable<Heading>? documents;
+        IEnumerable<HeadingModel>? documents;
         if (category.Equals("news", StringComparison.InvariantCultureIgnoreCase))
         {
             documents = headings?.Documents
@@ -45,6 +53,6 @@ public class Headings
             documents = headings?.Documents.Select(pair => pair.Value);
         }
 
-        return documents ?? Array.Empty<Heading>();
+        return documents ?? Array.Empty<HeadingModel>();
     }
 }

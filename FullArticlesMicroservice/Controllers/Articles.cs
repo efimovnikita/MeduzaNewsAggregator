@@ -27,7 +27,7 @@ public class Articles
     private async Task<string> GetArticle(string url)
     {
         var json = await _networkService.GetResponse($"https://meduza.io/api/v3/{url}");
-        var article = JsonConvert.DeserializeObject<ArticleData>(json);
+        var article = JsonConvert.DeserializeObject<ArticleRootModel>(json);
         
         if (article is null)
         {

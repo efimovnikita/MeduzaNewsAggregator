@@ -1,6 +1,6 @@
 @using Common.Models
 <ol>
-    @foreach (var heading in Headings ?? new List<Heading>())
+    @foreach (var heading in Headings ?? new List<HeadingModel>())
     {
         <li style="margin-bottom: 5px">
             <HeadingComponent Title="@heading.Title" Url="@heading.Url"/>
@@ -10,5 +10,5 @@
 
 @code {
     [Parameter]
-    public List<Heading>? Headings { get; set; }
+    public List<HeadingModel>? Headings { get; set; }
 }

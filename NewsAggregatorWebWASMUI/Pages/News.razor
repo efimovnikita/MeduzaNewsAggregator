@@ -29,7 +29,7 @@
 
 @code {
     private bool _showHeadingsList;
-    private List<Heading>? _headings = new();
+    private List<HeadingModel>? _headings = new();
     private string? _category = "news";
 
     private bool ShowSpinner { get; set; }
@@ -39,7 +39,7 @@
         _showHeadingsList = false;
         ShowSpinner = true;
         var headings = await _httpClient
-            .GetFromJsonAsync<IEnumerable<Heading>>($"https://headings-river.herokuapp.com/Headings/{_category}") ?? Array.Empty<Heading>();
+            .GetFromJsonAsync<IEnumerable<HeadingModel>>($"https://headings-river.herokuapp.com/Headings/{_category}") ?? Array.Empty<HeadingModel>();
         _headings = headings.ToList();
 
         if (_headings.Count > 0)

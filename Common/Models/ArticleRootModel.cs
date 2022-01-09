@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Common.Models;
 
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-public class ArticleData
+public class ArticleRootModel
 {
-    public Article Root { get; set; }
+    public ArticleModel Root { get; set; }
 }

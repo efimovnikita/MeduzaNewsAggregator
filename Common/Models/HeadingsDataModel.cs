@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Common.Models;
 
 [SuppressMessage("ReSharper", "CollectionNeverUpdated.Global")]
-public class HeadingsData
+public class HeadingsDataModel
 {
-    public Dictionary<string, Heading> Documents { get; } = new();
+    public Dictionary<string, HeadingModel> Documents { get; } = new();
 }

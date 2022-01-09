@@ -8,7 +8,7 @@ namespace Common.Services;
 
 public class AngleSharpParser : IHtmlParserService
 {
-    public async Task<string> ProcessArticleBody(ArticleData article)
+    public async Task<string> ProcessArticleBody(ArticleRootModel article)
     {
         var contentBody = article.Root.Content.Body;
 
