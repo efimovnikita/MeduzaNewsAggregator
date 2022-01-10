@@ -1,3 +1,4 @@
+using System.Text;
 using Common.Models;
 using Common.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,12 +10,12 @@ namespace FullArticlesMicroservice.Controllers;
 [Route("[controller]")]
 public class Articles
 {
-    private readonly INetworkService _networkService;
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly IHtmlParserService _htmlParserService;
 
-    public Articles(INetworkService networkService, IHtmlParserService htmlParserService)
+    public Articles(IHttpClientFactory httpClientFactory, IHtmlParserService htmlParserService)
     {
-        _networkService = networkService;
+        _httpClientFactory = httpClientFactory;
         _htmlParserService = htmlParserService;
     }
     
@@ -26,16 +27,44 @@ public class Articles
 
     private async Task<string> GetArticle(string url)
     {
-        var json = await _networkService.GetResponse($"https://meduza.io/api/v3/{url}");
-        var article = JsonConvert.DeserializeObject<ArticleRootModel>(json);
-        
-        if (article is null)
-        {
-            return string.Empty;
-        }
+        var httpClient = _httpClientFactory.CreateClient("articles");
+        var responseMessage = await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get, $"https://meduza.io/api/v3/{url}"));
+        if (responseMessage.IsSuccessStatusCode == false) return string.Empty;
 
-        var logMessageModel = new LogMessageModel(article.Root.Title);
-        await _networkService.SendPostRequestWithJsonBody("https://logs-river.herokuapp.com/Logs", logMessageModel);
-        return await _htmlParserService.ProcessArticleBody(article);
+        var contentString = await responseMessage.Content.ReadAsStringAsync();
+        var articleRootModel = GetArticleRootModel(contentString);
+        if (articleRootModel == null) return string.Empty;
+
+        await SendPostRequest(articleRootModel, httpClient);
+
+        return await _htmlParserService.ProcessArticleBody(articleRootModel);
+    }
+
+    private static ArticleRootModel? GetArticleRootModel(string contentString)
+    {
+        ArticleRootModel? article;
+
+        try
+        {
+            article = JsonConvert.DeserializeObject<ArticleRootModel>(contentString);
+        }
+        catch
+        {
+            return null;
+        }
+        
+        return article;
+    }
+
+    private static async Task SendPostRequest(ArticleRootModel? article, HttpClient httpClient)
+    {
+        if (article != null)
+        {
+            var logMessageModel = new LogMessageModel(article.Root.Title);
+            var postRequestMessage = new HttpRequestMessage(HttpMethod.Post, "https://logs-river.herokuapp.com/Logs");
+            postRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(logMessageModel), Encoding.Default,
+                "application/json");
+            await httpClient.SendAsync(postRequestMessage);
+        }
     }
 }
