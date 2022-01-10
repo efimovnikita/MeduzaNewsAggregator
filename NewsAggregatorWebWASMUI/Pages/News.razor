@@ -34,6 +34,11 @@
 
     private bool ShowSpinner { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        await ShowHeadings();
+    }
+
     private async Task ShowHeadings()
     {
         _showHeadingsList = false;
