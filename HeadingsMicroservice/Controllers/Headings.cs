@@ -24,7 +24,7 @@ public class Headings
 
     private async Task<IEnumerable<HeadingModel>> GetHeadings(string category)
     {
-        var httpClient = _httpClientFactory.CreateClient();
+        var httpClient = _httpClientFactory.CreateClient("headings");
         var responseMessage = await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get,
             $"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page=0&per_page=24"));
 
