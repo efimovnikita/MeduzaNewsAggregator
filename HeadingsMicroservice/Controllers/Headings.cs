@@ -53,7 +53,10 @@ public class Headings
             documents = headings?.Documents.Select(pair => pair.Value);
         }
 
-        documents = documents?.Where(model => model.Document_Type.Equals("video") == false);
+        documents = documents?
+            .Where(model => model.Document_Type.Equals("video") == false)
+            .OrderByDescending(model => model.Pub_Date)
+            .ThenByDescending(model => model.Published_At);
 
         return documents ?? Array.Empty<HeadingModel>();
     }

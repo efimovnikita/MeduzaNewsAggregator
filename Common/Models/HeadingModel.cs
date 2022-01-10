@@ -11,4 +11,5 @@ public class HeadingModel
     public string Url { get; set; } = string.Empty;
     public Dictionary<string, string> Tag { get; set; } = new();
     public string Document_Type { get; set; } = string.Empty;
+    public int Published_At { get; set; }
 }
