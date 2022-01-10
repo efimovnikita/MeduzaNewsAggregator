@@ -3,7 +3,7 @@
     @foreach (var heading in Headings ?? new List<HeadingModel>())
     {
         <li style="margin-bottom: 5px">
-            <HeadingComponent Title="@heading.Title" Url="@heading.Url"/>
+            <HeadingComponent Title="@heading.Title" Url="@heading.Url" Date="@heading.Pub_Date" Time="@heading.Published_At"/>
         </li>
     }
 </ol>
