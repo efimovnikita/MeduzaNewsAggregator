@@ -1,9 +1,11 @@
 @inject HttpClient _httpClient
 @inject Blazored.LocalStorage.ILocalStorageService _localStorage
+@inject IJSRuntime _jsRuntime
 
 <div>
     <div style="cursor: pointer; text-decoration: underline" @onclick="GetArticle">
-        @Title<span style="margin-left: 10px; color: darkgray; text-decoration: none; display: inline-block; font-size: 12px">
+        @Title
+        <span style="margin-left: 10px; color: darkgray; text-decoration: none; display: inline-block; font-size: 12px">
             <span class="oi oi-clock" aria-hidden="true"></span> @ReadableTime
         </span>
     </div>
@@ -17,8 +19,17 @@
     {
         <div style="padding: 10px; color: #4f5050">
             <div style="white-space: pre-wrap">@Text</div>
-            <div style="margin-top: 10px; text-transform: lowercase">
-                <a href="@FullUrl" target="_blank">Ссылка на материал</a>
+            <div style="margin-top: 5px; text-transform: lowercase">
+                <button class="btn btn-outline-secondary btn-sm" type="button" @onclick="NavigateToMeduza">
+                    <span class="oi oi-link-intact" aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-outline-secondary btn-sm" type="button" @onclick="CopyToClipboard">
+                    <span class="oi oi-clipboard" aria-hidden="true"></span>
+                </button>
+                @if (ShowClipboardCopyText)
+                {
+                    <span style="margin-left: 10px; font-size: 12px">Ссылка скопирована...</span>
+                }
             </div>
         </div>
     }
@@ -34,10 +45,10 @@
 
     [Parameter]
     public string? Url { get; set; }
-    
+
     [Parameter]
     public DateTime Date { get; set; }
-    
+
     [Parameter]
     public int Time { get; set; }
 
@@ -48,6 +59,8 @@
     private bool ShowText { get; set; }
 
     private bool ShowSpinner { get; set; }
+    
+    private bool ShowClipboardCopyText { get; set; }
 
     private async Task GetArticle()
     {
@@ -73,4 +86,11 @@
         ShowText = !ShowText;
     }
 
+    private async Task CopyToClipboard()
+    {
+        await _jsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", FullUrl);
+        ShowClipboardCopyText = true;
+    }
+
+    private async Task NavigateToMeduza() => await _jsRuntime.InvokeAsync<object>("open", FullUrl, "_blank");
 }
