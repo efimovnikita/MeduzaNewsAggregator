@@ -10,26 +10,10 @@
     <PackageReference Include="Blazored.LocalStorage" Version="4.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.1" PrivateAssets="all" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="RestSharp" Version="106.15.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\loading.gif" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="publish\publish\Shared\package.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\wwwroot\sample-data\weather.json" />
-    <_ContentIncludedByDefault Remove="publish\publish\wwwroot\_framework\blazor.boot.json" />
-    <_ContentIncludedByDefault Remove="release\web.config" />
-    <_ContentIncludedByDefault Remove="release\publish\Shared\package.json" />
-    <_ContentIncludedByDefault Remove="release\publish\wwwroot\sample-data\weather.json" />
-    <_ContentIncludedByDefault Remove="release\publish\wwwroot\_framework\blazor.boot.json" />
-    <_ContentIncludedByDefault Remove="release\Shared\package.json" />
-    <_ContentIncludedByDefault Remove="release\static.json" />
-    <_ContentIncludedByDefault Remove="release\wwwroot\sample-data\weather.json" />
-    <_ContentIncludedByDefault Remove="release\wwwroot\_framework\blazor.boot.json" />
   </ItemGroup>
 
   <ItemGroup>
