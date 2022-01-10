@@ -53,6 +53,8 @@ public class Headings
             documents = headings?.Documents.Select(pair => pair.Value);
         }
 
+        documents = documents?.Where(model => model.Document_Type.Equals("video") == false);
+
         return documents ?? Array.Empty<HeadingModel>();
     }
 }
