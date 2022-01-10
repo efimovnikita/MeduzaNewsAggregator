@@ -5,6 +5,8 @@
       <list>
         <option value="$PROJECT_DIR$/NewsAggregatorWebWASMUI/publish" />
         <option value="$PROJECT_DIR$/FullArticlesMicroservice/publish" />
+        <option value="$PROJECT_DIR$/HeadingsLoggerMicroservice/publish" />
+        <option value="$PROJECT_DIR$/HeadingsMicroservice/publish" />
       </list>
     </option>
   </component>
