@@ -23,7 +23,8 @@ app.MapGet("/{category}",
         var models = storage.HeadingModels.Where(model =>
         {
             model.Tag.TryGetValue("name", out var nameTagValue);
-            return nameTagValue.Equals(tagNameBasedOnCategory, StringComparison.InvariantCultureIgnoreCase);
+            return string.IsNullOrWhiteSpace(nameTagValue) != true && nameTagValue.Equals(tagNameBasedOnCategory,
+                StringComparison.InvariantCultureIgnoreCase);
         }).ToList();
         
         if (models.Count > 0)
