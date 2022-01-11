@@ -4,7 +4,7 @@
 
 <div>
     <div style="cursor: pointer; text-decoration: underline" @onclick="GetArticle">
-        @Title
+        @((MarkupString)(Title ?? "Error getting title"))
         <span style="margin-left: 10px; color: darkgray; text-decoration: none; display: inline-block; font-size: 12px">
             <span class="oi oi-clock" aria-hidden="true"></span> @ReadableTime
         </span>
