@@ -1,3 +1,4 @@
+using Common.HelperMethods;
 using Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -35,29 +36,6 @@ public class Headings
 
         var contentString = await responseMessage.Content.ReadAsStringAsync();
         var headingsData = JsonConvert.DeserializeObject<HeadingsDataModel>(contentString);
-        return GetHeadingsList(category, headingsData);
-    }
-
-    private static IEnumerable<HeadingModel> GetHeadingsList(string category, HeadingsDataModel? headings)
-    {
-        IEnumerable<HeadingModel>? documents;
-        if (category.Equals("news", StringComparison.InvariantCultureIgnoreCase))
-        {
-            documents = headings?.Documents
-                .Where(pair => pair.Value.Tag["name"]
-                    .Equals("новости", StringComparison.InvariantCultureIgnoreCase))
-                .Select(pair => pair.Value);
-        }
-        else
-        {
-            documents = headings?.Documents.Select(pair => pair.Value);
-        }
-
-        documents = documents?
-            .Where(model => model.Document_Type.Equals("video") == false)
-            .OrderByDescending(model => model.Pub_Date)
-            .ThenByDescending(model => model.Published_At);
-
-        return documents ?? Array.Empty<HeadingModel>();
+        return Methods.GetHeadingsList(category, headingsData);
     }
 }
