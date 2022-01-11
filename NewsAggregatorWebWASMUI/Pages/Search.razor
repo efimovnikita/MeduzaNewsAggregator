@@ -1,0 +1,90 @@
+@page "/search"
+@using Common.Models
+@inject HttpClient _httpClient
+
+<PageTitle>Поиск материалов</PageTitle>
+
+<h3>Поиск</h3>
+<div style="margin-bottom: 25px; margin-top: 25px">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Поисковый запрос" @bind="SearchQuery" @bind:event="oninput">
+        <select class="form-select" id="category" @bind="Category" @bind:event="onchange">
+            <option value="news" selected>Новости</option>
+            <option value="articles">Истории</option>
+            <option value="shapito">Шапито</option>
+        </select>
+        <button class="btn btn-outline-secondary" type="button" @onclick="ShowHeadings">Искать</button>
+    </div>
+</div>
+
+@if (ShowSpinner)
+{
+    <Spinner/>
+}
+
+@if (ShowHeadingsList)
+{
+    <ErrorBoundary>
+        <ChildContent>
+            <HeadingsListComponent Headings="Headings"/>
+        </ChildContent>
+        <ErrorContent Context="ex">
+            <div class="alert alert-danger" role="alert">
+                <p>Ошибка при загрузке списка материалов...</p>
+                <hr>
+                <p class="mb-0">@ex.StackTrace</p>
+            </div>
+        </ErrorContent>
+    </ErrorBoundary>
+}
+
+@code {
+
+    private bool ShowSpinner { get; set; }
+    private List<HeadingModel> _headings = new();
+
+    private List<HeadingModel> Headings
+    {
+        get
+        {
+            _headings.ForEach(heading =>
+            {
+                var words = heading.Title.Split(" ");
+                var matchWord = words.FirstOrDefault(s => s.Equals(SearchQuery, StringComparison.InvariantCultureIgnoreCase));
+                if (string.IsNullOrWhiteSpace(matchWord) == false)
+                {
+                    var index = Array.FindIndex(words, row => row.Equals(matchWord, StringComparison.InvariantCultureIgnoreCase));
+
+                    if (index != -1)
+                    {
+                        words[index] = $"<span style=\"background-color: yellow\">{words[index]}</span>";
+                    }
+                }
+
+                heading.Title = string.Join(' ', words);
+            });
+
+            return _headings;
+        }
+        set => _headings = value;
+    }
+
+    private bool ShowHeadingsList { get; set; }
+
+    private async Task ShowHeadings()
+    {
+        ShowHeadingsList = false;
+        ShowSpinner = true;
+        var headings = await _httpClient
+            .GetFromJsonAsync<IEnumerable<HeadingModel>>($"https://localhost:7278/{Category}?search={SearchQuery}") ?? Array.Empty<HeadingModel>();
+        Headings = headings.ToList();
+
+        ShowHeadingsList = true;
+        ShowSpinner = false;
+    }
+
+    private string? Category { get; set; } = "news";
+
+    private string? SearchQuery { get; set; }
+
+}

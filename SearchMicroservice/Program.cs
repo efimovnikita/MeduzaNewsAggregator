@@ -5,6 +5,7 @@ using Common.Services;
 using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors();
 builder.Services.AddHttpClient("headings")
     .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip });
 builder.Services.AddSingleton<IStorageService, HeadingsStorageService>();
@@ -60,4 +61,9 @@ List<HeadingModel> SearchFromModels(IEnumerable<HeadingModel> list, string searc
 }
 
 app.UseSwaggerUI();
+
+app.UseCors(options => options
+    .AllowAnyOrigin()
+    .AllowAnyHeader());
+
 app.Run();
