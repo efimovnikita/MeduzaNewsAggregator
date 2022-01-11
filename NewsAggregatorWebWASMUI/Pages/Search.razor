@@ -76,7 +76,7 @@
         ShowHeadingsList = false;
         ShowSpinner = true;
         var headings = await _httpClient
-            .GetFromJsonAsync<IEnumerable<HeadingModel>>($"https://localhost:7278/{Category}?search={SearchQuery}") ?? Array.Empty<HeadingModel>();
+            .GetFromJsonAsync<IEnumerable<HeadingModel>>($"https://search-river.herokuapp.com/{Category}?search={SearchQuery}") ?? Array.Empty<HeadingModel>();
         Headings = headings.ToList();
 
         ShowHeadingsList = true;
