@@ -14,7 +14,7 @@
             <option value="shapito">Шапито</option>
         </select>
         <div class="input-group-text">
-            <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+            <input class="form-check-input mt-0" type="checkbox" @bind="_today" @bind:event="onchange">
             <label class="text-black-50" style="margin-left: 10px">Сегодня</label>
         </div>
         <button class="btn btn-primary" type="button" @onclick="ShowHeadings">Показать</button>
@@ -28,13 +28,37 @@
 
 @if (_showHeadingsList)
 {
-    <HeadingsListComponent Headings="_headings"/>
+    <ErrorBoundary>
+        <ChildContent>
+            <HeadingsListComponent Headings="Headings"/>
+        </ChildContent>
+        <ErrorContent Context="ex">
+            <div class="alert alert-danger" role="alert">
+              <p>Ошибка при загрузке списка материалов...</p>
+              <hr>
+              <p class="mb-0">@ex.StackTrace</p>
+            </div>
+        </ErrorContent>
+    </ErrorBoundary>
 }
 
 @code {
     private bool _showHeadingsList;
-    private List<HeadingModel>? _headings = new();
+
+    private List<HeadingModel> Headings
+    {
+        get
+        {
+            return _today == false ?
+                _headings
+                : _headings.Where(model => model.Pub_Date.Date == DateTime.Today).ToList();
+        }
+        set => _headings = value;
+    }
+
     private string? _category = "news";
+    private bool _today = true;
+    private List<HeadingModel> _headings = new();
 
     private bool ShowSpinner { get; set; }
 
@@ -49,13 +73,9 @@
         ShowSpinner = true;
         var headings = await _httpClient
             .GetFromJsonAsync<IEnumerable<HeadingModel>>($"https://headings-river.herokuapp.com/Headings/{_category}") ?? Array.Empty<HeadingModel>();
-        _headings = headings.ToList();
-
-        if (_headings.Count > 0)
-        {
-            _showHeadingsList = true;
-        }
+        Headings = headings.ToList();
+        
+        _showHeadingsList = true;
         ShowSpinner = false;
     }
-
 }

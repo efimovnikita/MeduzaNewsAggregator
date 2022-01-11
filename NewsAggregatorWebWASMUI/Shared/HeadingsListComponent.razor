@@ -1,12 +1,21 @@
 @using Common.Models
-<ol>
-    @foreach (var heading in Headings ?? new List<HeadingModel>())
-    {
-        <li style="margin-bottom: 5px">
-            <HeadingComponent Title="@heading.Title" Url="@heading.Url" Date="@heading.Pub_Date" Time="@heading.Published_At"/>
-        </li>
-    }
-</ol>
+@if (Headings is not null && Headings.Count > 0)
+{
+    <ol class="fade-in">
+        @foreach (var heading in Headings ?? new List<HeadingModel>())
+        {
+            <li style="margin-bottom: 5px">
+                <HeadingComponent Title="@heading.Title" Url="@heading.Url" Date="@heading.Pub_Date" Time="@heading.Published_At"/>
+            </li>
+        }
+    </ol>
+}
+else
+{
+    <div class="alert alert-secondary fade-in" role="alert">
+        Материалы не найдены...
+    </div>
+}
 
 @code {
     [Parameter]

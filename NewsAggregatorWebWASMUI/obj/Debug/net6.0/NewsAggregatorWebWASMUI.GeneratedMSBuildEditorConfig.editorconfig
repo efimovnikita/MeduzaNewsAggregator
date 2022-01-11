@@ -46,10 +46,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL0hlYWRpbmdDb21wb25lbnQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/HeadingsListComponent.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL0hlYWRpbmdzTGlzdENvbXBvbmVudC5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/Spinner.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL1NwaW5uZXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -61,6 +57,10 @@ build_metadata.AdditionalFiles.CssScope =
 [/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
+
+[/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/HeadingsListComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL0hlYWRpbmdzTGlzdENvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-5dqwwe0byi
 
 [/home/maskedball/RiderProjects/MeduzaNewsAggregator/NewsAggregatorWebWASMUI/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01haW5MYXlvdXQucmF6b3I=
