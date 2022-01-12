@@ -41,46 +41,60 @@
 @code {
 
     private bool ShowSpinner { get; set; }
-    private List<HeadingModel> _headings = new();
 
-    private List<HeadingModel> Headings
+    private List<HeadingModel> Headings { get; set; } = new();
+
+    private void InsertMarkdownIntoTitleWords(string[] words)
     {
-        get
+        var word = words.FirstOrDefault(word => SearchQuery != null && word.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase));
+        if (string.IsNullOrWhiteSpace(word)) return;
+
+        var wordWithMarkdown = string.Empty;
+        if (SearchQuery != null)
         {
-            _headings.ForEach(heading =>
-            {
-                var words = heading.Title.Split(" ");
-                var matchWord = words.FirstOrDefault(s => s.Equals(SearchQuery, StringComparison.InvariantCultureIgnoreCase));
-                if (string.IsNullOrWhiteSpace(matchWord) == false)
-                {
-                    var index = Array.FindIndex(words, row => row.Equals(matchWord, StringComparison.InvariantCultureIgnoreCase));
-
-                    if (index != -1)
-                    {
-                        words[index] = $"<span style=\"background-color: yellow\">{words[index]}</span>";
-                    }
-                }
-
-                heading.Title = string.Join(' ', words);
-            });
-
-            return _headings;
+            var firstOccurenceOfSearchQuery = word.IndexOf(SearchQuery, StringComparison.InvariantCultureIgnoreCase);
+            var searchQueryWithRightCasing = word.Substring(firstOccurenceOfSearchQuery, SearchQuery.Length);
+            wordWithMarkdown = word
+                .Replace(SearchQuery, $"<span style=\"background-color: yellow\">{searchQueryWithRightCasing}</span>",
+                    StringComparison.InvariantCultureIgnoreCase);
         }
-        set => _headings = value;
+        if (string.IsNullOrWhiteSpace(wordWithMarkdown)) return;
+
+        var index = Array.FindIndex(words, row => row.Equals(word, StringComparison.InvariantCultureIgnoreCase));
+        if (index != -1)
+        {
+            words[index] = wordWithMarkdown;
+        }
     }
 
     private bool ShowHeadingsList { get; set; }
 
     private async Task ShowHeadings()
     {
-        ShowHeadingsList = false;
-        ShowSpinner = true;
-        var headings = await _httpClient
-            .GetFromJsonAsync<IEnumerable<HeadingModel>>($"https://search-river.herokuapp.com/{Category}?search={SearchQuery}") ?? Array.Empty<HeadingModel>();
-        Headings = headings.ToList();
+        if (string.IsNullOrWhiteSpace(SearchQuery) == false)
+        {
+            ShowHeadingsList = false;
+            ShowSpinner = true;
+            var headings = await _httpClient
+                .GetFromJsonAsync<IEnumerable<HeadingModel>>($"https://search-river.herokuapp.com/{Category}?search={SearchQuery}") ?? Array.Empty<HeadingModel>();
+            Headings = headings.ToList();
 
-        ShowHeadingsList = true;
-        ShowSpinner = false;
+            InsertMarkDownIntoTitles();
+
+            ShowHeadingsList = true;
+            ShowSpinner = false;
+        }
+    }
+
+    private void InsertMarkDownIntoTitles()
+    {
+        Headings.ForEach(heading =>
+        {
+            var words = heading.Title.Split(" ");
+            InsertMarkdownIntoTitleWords(words);
+
+            heading.Title = string.Join(' ', words);
+        });
     }
 
     private string? Category { get; set; } = "news";
