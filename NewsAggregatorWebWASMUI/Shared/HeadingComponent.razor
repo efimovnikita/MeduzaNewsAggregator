@@ -3,7 +3,7 @@
 @inject IJSRuntime _jsRuntime
 
 <div>
-    <button style="border: none; text-decoration: underline; text-align: left; color: #1a1e21" @onclick="GetArticle">
+    <button style="border: none; text-decoration: underline; text-align: left; color: #1a1e21; background-color: transparent" @onclick="GetArticle">
         @((MarkupString) (Title ?? "Error getting title"))
         <span style="margin-left: 10px; color: darkgray; text-decoration: none; display: inline-block; font-size: 12px">
             <span class="oi oi-calendar" aria-hidden="true"></span> @ReadableTime
