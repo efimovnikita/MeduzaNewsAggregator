@@ -37,8 +37,11 @@ public class MainHub : Hub
             
             var contentString = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
             var headingsData = JsonConvert.DeserializeObject<HeadingsDataModel>(contentString);
-            var headingModels = Methods.GetHeadingsList("news", headingsData);
-            
+            var headingModels = new List<HeadingModel>();
+            headingModels.AddRange(Methods.GetHeadingsList("news", headingsData));
+            headingModels.AddRange(Methods.GetHeadingsList("articles", headingsData));
+            headingModels.AddRange(Methods.GetHeadingsList("shapito", headingsData));
+
             await Task.Delay(300000, cancellationToken);
             foreach (var headingModel in headingModels) yield return headingModel;
         }
