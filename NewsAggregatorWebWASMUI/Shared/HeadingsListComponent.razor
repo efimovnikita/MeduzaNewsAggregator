@@ -2,10 +2,16 @@
 @if (Headings is not null && Headings.Count > 0)
 {
     <ol class="fade-in">
-        @foreach (var heading in Headings ?? new List<HeadingModel>())
+        @foreach (var heading in Headings.OrderByDescending(model => model.Pub_Date).ThenByDescending(model => model.Published_At).ToList())
         {
             <li style="margin-bottom: 5px">
-                <HeadingComponent Title="@heading.Title" Url="@heading.Url" Date="@heading.Pub_Date" Time="@heading.Published_At"/>
+                <HeadingComponent 
+                    Title="@heading.Title" 
+                    Url="@heading.Url" 
+                    Date="@heading.Pub_Date" 
+                    Time="@heading.Published_At" 
+                    Text="@string.Empty"
+                    ShowText="@false"/>
             </li>
         }
     </ol>

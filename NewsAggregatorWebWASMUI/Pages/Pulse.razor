@@ -1,0 +1,122 @@
+@page "/pulse"
+@using Common.Models
+@using Microsoft.AspNetCore.SignalR.Client
+@inject HttpClient _httpClient
+@inject HubConnection _connection
+@implements IDisposable
+
+<PageTitle>Пульс</PageTitle>
+
+<h3>
+    Пульс
+    @if (ShowPulseGif)
+    {
+        <img src="pulse.gif" alt="Loading" width="20" height="20"/>
+    }
+</h3>
+<div style="margin-bottom: 25px; margin-top: 25px">
+    <div class="input-group mb-3">
+        <button class="@(_connection.State is HubConnectionState.Connected or HubConnectionState.Connecting or HubConnectionState.Reconnecting ? ConnectButtonDisabledClass : ConnectButtonEnabledClass)" type="button" @onclick="ConnectViaSignalR">
+            <span style="margin-right: 10px" class="oi oi-media-play" aria-hidden="true"></span>Прямой эфир
+        </button>
+        <button class="@(_connection.State is HubConnectionState.Disconnected ? DisconnectButtonDisabledClass : DisconnectButtonEnabledClass)" type="button" @onclick="DisconnectSignalR">
+            <span style="margin-right: 10px" class="oi oi-media-stop" aria-hidden="true"></span>Закончить трасляцию
+        </button>
+    </div>
+</div>
+
+@if (ShowSpinner)
+{
+    <Spinner/>
+}
+
+@if (ShowHeadingsList)
+{
+    <ErrorBoundary>
+        <ChildContent>
+            <HeadingsListComponent Headings="Headings"/>
+        </ChildContent>
+        <ErrorContent Context="ex">
+            <div class="alert alert-danger" role="alert">
+                <p>Ошибка при загрузке списка материалов...</p>
+                <hr>
+                <p class="mb-0">@ex.StackTrace</p>
+            </div>
+        </ErrorContent>
+    </ErrorBoundary>
+}
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        _connection.On(nameof(DisconnectSignalR), DisconnectSignalR);
+    }
+
+    private string ConnectButtonEnabledClass { get; set; } = "btn btn-outline-primary";
+    private string ConnectButtonDisabledClass { get; set; } = "btn btn-outline-secondary disabled";
+    private string DisconnectButtonEnabledClass { get; set; } = "btn btn-outline-danger";
+    private string DisconnectButtonDisabledClass { get; set; } = "btn btn-outline-secondary disabled";
+
+    private bool ShowSpinner { get; set; }
+
+    private List<HeadingModel> Headings { get; set; } = new();
+
+    private bool ShowHeadingsList { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await ShowHeadings();
+    }
+
+    private async Task ShowHeadings()
+    {
+        ShowHeadingsList = false;
+        ShowSpinner = true;
+        var headings = await _httpClient
+            .GetFromJsonAsync<IEnumerable<HeadingModel>>("https://headings-river.herokuapp.com/Headings/news") ?? Array.Empty<HeadingModel>();
+        Headings = headings.ToList();
+        
+        ShowHeadingsList = true;
+        ShowSpinner = false;
+    }
+
+    private async Task ConnectViaSignalR()
+    {
+        if (_connection.State == HubConnectionState.Disconnected)
+        {
+            ShowPulseGif = true;
+
+            await _connection.StartAsync();
+            Console.WriteLine("Start connection");
+
+            await foreach (var heading in _connection.StreamAsync<HeadingModel>("GetHeadings"))
+            {
+                var existing = Headings.FirstOrDefault(model => model.Url.Equals(heading.Url));
+                if (existing is not null) continue;
+                Headings.Add(heading);
+                Console.WriteLine($"A new element has been added: \"{heading.Title}\"");
+                StateHasChanged();
+            }
+        }
+    }
+
+    private async Task DisconnectSignalR()
+    {
+        if (_connection.State == HubConnectionState.Connected)
+        {
+            ShowPulseGif = false;
+            await _connection.StopAsync(new CancellationToken(true));
+            Console.WriteLine("Close connection");
+            StateHasChanged();
+        }
+    }
+
+    private bool ShowPulseGif { get; set; }
+
+    public async void Dispose()
+    {
+        await DisconnectSignalR();
+    }
+
+}

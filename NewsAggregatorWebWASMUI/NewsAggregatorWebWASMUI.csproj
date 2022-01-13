@@ -7,13 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazored.LocalStorage" Version="4.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\loading.gif" />
+    <None Include="wwwroot\pulse.gif" />
   </ItemGroup>
 
   <ItemGroup>
