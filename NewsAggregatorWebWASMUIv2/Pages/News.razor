@@ -89,17 +89,27 @@
         {
             return ShowToday == false ?
                 _appState.Articles
-                    .Where(article => article.Tag.ContainsKey("name") && article.Tag["name"].Equals(Common.HelperMethods.Methods.GetTagNameBasedOnCategory(Category), StringComparison.InvariantCultureIgnoreCase))
+                    .Where(article =>
+                    {
+                        article.Tag.TryGetValue("name", out var nameTag);
+                        return string.IsNullOrEmpty(nameTag) == false && nameTag.Equals(Common.HelperMethods.Methods.GetTagNameBasedOnCategory(Category), StringComparison.InvariantCultureIgnoreCase);
+                    })
+                    .OrderByDescending(article => article.PublishedAt)
                     .ToList()
                 : _appState.Articles
                     .Where(article => article.Date.Equals(DateTime.Today))
-                    .Where(article => article.Tag.ContainsKey("name") && article.Tag["name"].Equals(Common.HelperMethods.Methods.GetTagNameBasedOnCategory(Category), StringComparison.InvariantCultureIgnoreCase))
+                    .Where(article =>
+                    {
+                        article.Tag.TryGetValue("name", out var nameTag);
+                        return string.IsNullOrEmpty(nameTag) == false && nameTag.Equals(Common.HelperMethods.Methods.GetTagNameBasedOnCategory(Category), StringComparison.InvariantCultureIgnoreCase);
+                    })                    
+                    .OrderByDescending(article => article.PublishedAt)
                     .ToList();
         }
     }
 
-    private bool ShowList { get; set; } = true;
     private string Category { get; set; } = "news";
+    private bool ShowList { get; set; } = true;
     private bool ShowToday { get; set; } = true;
     private bool ShowSpinner { get; set; }
     private bool ShowPulseGif { get; set; }
@@ -127,12 +137,7 @@
             .Select(model => new FullArticle(model.Title, model.Url, model.Pub_Date, model.Published_At, model.Tag)).ToList();
         _appState.AddNewArticles(fullArticles);
     }
-
-    public void Dispose()
-    {
-        _appState.StateChanged -= StateHasChanged;
-    }
-
+    
     private async Task ToggleShowPulse()
     {
         ShowPulse = !ShowPulse;
@@ -141,8 +146,13 @@
         while (ShowPulse)
         {
             await GetArticlesCore();
-            await Task.Delay(60000);
+            await Task.Delay(10000);
         }
+    }
+    
+    public void Dispose()
+    {
+        _appState.StateChanged -= StateHasChanged;
     }
 
 }

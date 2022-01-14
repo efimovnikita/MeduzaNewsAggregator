@@ -4,24 +4,18 @@ namespace NewsAggregatorWebWASMUIv2.Services;
 
 public class AppState : IState
 {
-    public List<FullArticle> Articles { get; private set; } = new();
+    public List<FullArticle> Articles { get; } = new();
     public List<FullArticle> SearchedArticles { get; private set; } = new();
-    
-    public void AddNewArticle(FullArticle article)
-    {
-        var existing = Articles.FirstOrDefault(fullArticle => fullArticle.Title.Equals(article.Title));
-        if (existing == null)
-        {
-            Articles.Add(article);
-        }
-        NotifyStateChanged();
-    }
 
     public void AddNewArticles(List<FullArticle> articles)
     {
         foreach (var article in articles)
         {
-            AddNewArticle(article);
+            var existing = Articles.FirstOrDefault(fullArticle => fullArticle.Title.Equals(article.Title));
+            if (existing == null)
+            {
+                Articles.Add(article);
+            }
         }
         NotifyStateChanged();
     }
