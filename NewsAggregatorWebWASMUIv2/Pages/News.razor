@@ -1,0 +1,148 @@
+@page "/"
+@using NewsAggregatorWebWASMUIv2.Services
+@using Common.Models
+@inject HttpClient _httpClient
+@inject IState _appState
+@implements IDisposable
+
+<PageTitle>Материалы</PageTitle>
+
+<h3>
+    Материалы
+    @if (ShowPulseGif)
+    {
+        <img src="pulse.gif" alt="Loading" width="20" height="20"/>
+    }
+</h3>
+<div style="margin-bottom: 25px; margin-top: 25px">
+    <div class="input-group mb-3">
+        <select class="form-select" id="category" @bind="Category" @bind:event="onchange">
+            <option value="news" selected>Новости</option>
+            <option value="articles">Истории</option>
+            <option value="shapito">Шапито</option>
+        </select>
+        <div class="input-group-text">
+            <input class="form-check-input mt-0" type="checkbox" @bind="ShowToday" @bind:event="onchange">
+            <svg style="margin-left: 5px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="25" height="25" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zm0-12H5V5h14v2zm-7 4H7v5h5v-5z" fill="gray"/><path opacity=".3" d="M5 5h14v2H5z" fill="gray"/></svg>
+        </div>
+        <div class="input-group-text">
+            <input class="form-check-input mt-0" type="checkbox" @onchange="ToggleShowPulse">
+            <svg style="margin-left: 5px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="25" height="25" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none"><path d="M2 10c6-6.667 14-6.667 20 0" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 14c3.6-4 8.4-4 12 0" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="18" r="1" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+        </div>
+        <button class="btn btn-primary" type="button" @onclick="GetArticles">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="25" height="25" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M12 9a3.02 3.02 0 0 0-3 3c0 1.642 1.358 3 3 3c1.641 0 3-1.358 3-3c0-1.641-1.359-3-3-3z" fill="white"/><path d="M12 5c-7.633 0-9.927 6.617-9.948 6.684L1.946 12l.105.316C2.073 12.383 4.367 19 12 19s9.927-6.617 9.948-6.684l.106-.316l-.105-.316C21.927 11.617 19.633 5 12 5zm0 12c-5.351 0-7.424-3.846-7.926-5C4.578 10.842 6.652 7 12 7c5.351 0 7.424 3.846 7.926 5c-.504 1.158-2.578 5-7.926 5z" fill="white"/></svg>
+        </button>
+    </div>
+</div>
+
+@if (ShowSpinner)
+{
+    <Spinner/>
+}
+
+@if (ShowList)
+{
+    if (Articles.Count > 0)
+    {
+        <ErrorBoundary>
+            <ChildContent>
+                <ol class="fade-in">
+                    @foreach (var article in Articles)
+                    {
+                        <li style="margin-bottom: 5px">
+                            <ArticleComponent FullArticle="article"/>
+                        </li>
+                    }
+                </ol>
+            </ChildContent>
+            <ErrorContent Context="ex">
+                <div class="alert alert-danger" role="alert">
+                    <p>Ошибка при загрузке списка материалов...</p>
+                    <hr>
+                    <p class="mb-0">@ex.StackTrace</p>
+                </div>
+            </ErrorContent>
+        </ErrorBoundary>
+    }
+    else
+    {
+        <div class="alert alert-secondary fade-in" role="alert">
+            Материалы не найдены...
+        </div>
+    }
+}
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        _appState.StateChanged += StateHasChanged;
+        if (Articles.Count == 0)
+        {
+            await GetArticles();
+        }
+    }
+
+    private List<FullArticle> Articles
+    {
+        get
+        {
+            return ShowToday == false ?
+                _appState.Articles
+                    .Where(article => article.Tag.ContainsKey("name") && article.Tag["name"].Equals(Common.HelperMethods.Methods.GetTagNameBasedOnCategory(Category), StringComparison.InvariantCultureIgnoreCase))
+                    .ToList()
+                : _appState.Articles
+                    .Where(article => article.Date.Equals(DateTime.Today))
+                    .Where(article => article.Tag.ContainsKey("name") && article.Tag["name"].Equals(Common.HelperMethods.Methods.GetTagNameBasedOnCategory(Category), StringComparison.InvariantCultureIgnoreCase))
+                    .ToList();
+        }
+    }
+
+    private bool ShowList { get; set; } = true;
+    private string Category { get; set; } = "news";
+    private bool ShowToday { get; set; } = true;
+    private bool ShowSpinner { get; set; }
+    private bool ShowPulseGif { get; set; }
+    private bool ShowPulse { get; set; }
+    
+    private async Task GetArticles()
+    {
+        ShowList = false;
+        ShowSpinner = true;
+
+        await GetArticlesCore();
+
+        ShowList = true;
+        ShowSpinner = false;
+    }
+
+    private async Task GetArticlesCore()
+    {
+        var headings = await _httpClient
+            .GetFromJsonAsync<IEnumerable<HeadingModel>>(
+                $"https://headings-river.herokuapp.com/Headings/{Category}") ??
+                       Array.Empty<HeadingModel>();
+
+        var fullArticles = headings
+            .Select(model => new FullArticle(model.Title, model.Url, model.Pub_Date, model.Published_At, model.Tag)).ToList();
+        _appState.AddNewArticles(fullArticles);
+    }
+
+    public void Dispose()
+    {
+        _appState.StateChanged -= StateHasChanged;
+    }
+
+    private async Task ToggleShowPulse()
+    {
+        ShowPulse = !ShowPulse;
+        ShowPulseGif = !ShowPulseGif;
+
+        while (ShowPulse)
+        {
+            await GetArticlesCore();
+            await Task.Delay(60000);
+        }
+    }
+
+}
