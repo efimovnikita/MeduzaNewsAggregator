@@ -19,7 +19,7 @@
             <Spinner/>
         </div>
     }
-    @if (ShowText)
+    @if (FullArticle.Expanded)
     {
         <article style="padding: 10px; color: #4f5050">
             <section style="white-space: pre-wrap">@FullArticle.Text</section>
@@ -52,7 +52,6 @@
 #pragma warning restore CS8618
 
     private bool ShowSpinner { get; set; }
-    private bool ShowText { get; set; }
     private bool ShowCopyLinkText { get; set; }
     private string FullUrl => $"https://meduza.io/{FullArticle.Url}";
 
@@ -73,7 +72,7 @@
             ShowSpinner = false;
         }
 
-        ShowText = !ShowText;
+        FullArticle.Expanded = !FullArticle.Expanded;
     }
 
     public void Dispose()

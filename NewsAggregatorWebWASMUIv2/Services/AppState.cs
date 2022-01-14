@@ -12,10 +12,9 @@ public class AppState : IState
         foreach (var article in articles)
         {
             var existing = Articles.FirstOrDefault(fullArticle => fullArticle.Title.Equals(article.Title));
-            if (existing == null)
-            {
-                Articles.Add(article);
-            }
+            if (existing != null) continue;
+            CollapseAllArticles();
+            Articles.Add(article);
         }
         NotifyStateChanged();
     }
@@ -44,7 +43,12 @@ public class AppState : IState
         }
         NotifyStateChanged();
     }
-    
+
+    private void CollapseAllArticles()
+    {
+        Articles.ForEach(article => article.Expanded = false);
+    }
+
     public event Action? StateChanged;
 
     private void NotifyStateChanged() => StateChanged?.Invoke();
