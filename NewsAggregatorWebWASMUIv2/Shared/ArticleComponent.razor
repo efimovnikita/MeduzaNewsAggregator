@@ -1,9 +1,11 @@
 @using Common.Models
 @using NewsAggregatorWebWASMUIv2.Services
 @using System.ComponentModel.DataAnnotations
+@using HeadingsGRPCMicroservice
 @inject IState _appState
 @implements IDisposable
 @inject IJSRuntime _jsRuntime
+@inject ArticlesService.ArticlesServiceClient _client
 
 <div>
     <button style="border: none; text-decoration: underline; text-align: left; color: #1a1e21; background-color: transparent" @onclick="GetText">
@@ -46,9 +48,7 @@
     }
 
     [Parameter]
-#pragma warning disable CS8618
-        public FullArticle FullArticle { get; set; }
-#pragma warning restore CS8618
+    public FullArticle FullArticle { get; set; }
 
     private bool ShowSpinner { get; set; }
     private bool ShowCopyLinkText { get; set; }
@@ -58,21 +58,17 @@
 
     private async Task GetText()
     {
-        /*
         if (string.IsNullOrEmpty(FullArticle.Url) == false && string.IsNullOrEmpty(FullArticle.Text))
         {
             ShowSpinner = true;
 
-            var response = await _httpClient
-                .GetStringAsync($"https://articles-river.herokuapp.com/Articles/{FullArticle.Url.Replace("/", "%2f")}");
-            _appState.AddTextToSimpleArticle(FullArticle.Title, response);
-            _appState.AddTextToSearchArticle(FullArticle.Title, response);
-
+            var response = await _client.GetArticleTextAsync(new GetTextRequest {Url = FullArticle.Url});
+            _appState.AddTextToSimpleArticle(FullArticle.Title, response.Text);
+            _appState.AddTextToSearchArticle(FullArticle.Title, response.Text);
             ShowSpinner = false;
         }
 
         FullArticle.Expanded = !FullArticle.Expanded;
-    */
     }
 
     public void Dispose()

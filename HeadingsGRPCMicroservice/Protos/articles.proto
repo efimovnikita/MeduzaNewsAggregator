@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "HeadingsGRPCMicroservice";
+
+package articles;
+
+service ArticlesService {
+  rpc GetArticleText (GetTextRequest) returns (ArticleTextResponse);
+}
+
+message GetTextRequest {
+  string url = 1;
+}
+
+message ArticleTextResponse {
+  string text = 1;
+}

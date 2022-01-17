@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Protobuf Include="..\HeadingsGRPCMicroservice\Protos\headings.proto" GrpcServices="Client" />
+    <Protobuf Include="..\HeadingsGRPCMicroservice\Protos\articles.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

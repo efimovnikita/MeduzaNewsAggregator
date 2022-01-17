@@ -11,12 +11,19 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<IState, AppState>();
-builder.Services.AddSingleton(services => 
+builder.Services.AddSingleton(_ => 
 { 
     var httpClient = new HttpClient(new GrpcWebHandler(GrpcWebMode.GrpcWeb, new HttpClientHandler()));
     var uri = new Uri("https://localhost:7055");
     var channel = GrpcChannel.ForAddress(uri, new GrpcChannelOptions { HttpClient = httpClient }); 
     return new HeadingsService.HeadingsServiceClient(channel); 
+});
+builder.Services.AddSingleton(_ => 
+{ 
+    var httpClient = new HttpClient(new GrpcWebHandler(GrpcWebMode.GrpcWeb, new HttpClientHandler()));
+    var uri = new Uri("https://localhost:7055");
+    var channel = GrpcChannel.ForAddress(uri, new GrpcChannelOptions { HttpClient = httpClient });
+    return new ArticlesService.ArticlesServiceClient(channel);
 });
 
 await builder.Build().RunAsync();
