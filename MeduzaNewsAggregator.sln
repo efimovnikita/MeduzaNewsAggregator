@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{AC6FB3B9-F74C-4826-BAA4-06CABB901741}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchMicroservice", "SearchMicroservice\SearchMicroservice.csproj", "{C263C051-7C7B-4669-8867-3BA5DFCD614F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsAggregatorWebWASMUIv2", "NewsAggregatorWebWASMUIv2\NewsAggregatorWebWASMUIv2.csproj", "{74082CD4-57B9-4614-8000-9D6EDB0FD287}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadingsGRPCMicroservice", "HeadingsGRPCMicroservice\HeadingsGRPCMicroservice.csproj", "{0F1443FD-895F-47DA-A324-BC02992BB111}"
@@ -18,10 +16,6 @@ Global
 		{AC6FB3B9-F74C-4826-BAA4-06CABB901741}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC6FB3B9-F74C-4826-BAA4-06CABB901741}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC6FB3B9-F74C-4826-BAA4-06CABB901741}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C263C051-7C7B-4669-8867-3BA5DFCD614F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C263C051-7C7B-4669-8867-3BA5DFCD614F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C263C051-7C7B-4669-8867-3BA5DFCD614F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C263C051-7C7B-4669-8867-3BA5DFCD614F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{74082CD4-57B9-4614-8000-9D6EDB0FD287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{74082CD4-57B9-4614-8000-9D6EDB0FD287}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74082CD4-57B9-4614-8000-9D6EDB0FD287}.Release|Any CPU.ActiveCfg = Release|Any CPU
