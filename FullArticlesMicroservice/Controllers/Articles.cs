@@ -1,4 +1,3 @@
-using System.Text;
 using Common.Models;
 using Common.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -34,9 +33,7 @@ public class Articles
         var contentString = await responseMessage.Content.ReadAsStringAsync();
         var articleRootModel = GetArticleRootModel(contentString);
         if (articleRootModel == null) return string.Empty;
-
-        await SendPostRequest(articleRootModel, httpClient);
-
+        
         return await _htmlParserService.ProcessArticleBody(articleRootModel);
     }
 
@@ -54,17 +51,5 @@ public class Articles
         }
         
         return article;
-    }
-
-    private static async Task SendPostRequest(ArticleRootModel? article, HttpClient httpClient)
-    {
-        if (article != null)
-        {
-            var logMessageModel = new LogMessageModel(article.Root.Title);
-            var postRequestMessage = new HttpRequestMessage(HttpMethod.Post, "https://logs-river.herokuapp.com/Logs");
-            postRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(logMessageModel), Encoding.Default,
-                "application/json");
-            await httpClient.SendAsync(postRequestMessage);
-        }
     }
 }
