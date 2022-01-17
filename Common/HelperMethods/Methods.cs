@@ -4,20 +4,6 @@ namespace Common.HelperMethods;
 
 public static class Methods
 {
-    public static IEnumerable<HeadingModel2> GetHeadingsList2(string category, HeadingsDataModel2? headings)
-    {
-        var documents = headings?.Documents
-            .Where(pair => pair.Value.Tag.Name.Equals(GetTagNameBasedOnCategory(category)))
-            .Select(pair => pair.Value);
-
-        documents = documents?
-            .Where(model => model.Document_Type.Equals("video") == false)
-            .OrderByDescending(model => model.Pub_Date)
-            .ThenByDescending(model => model.Published_At);
-
-        return documents ?? Array.Empty<HeadingModel2>();
-    }
-
     public static IEnumerable<HeadingModel> GetHeadingsList(string category, HeadingsDataModel? headings)
     {
         var documents = headings?.Documents

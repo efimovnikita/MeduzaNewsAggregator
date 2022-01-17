@@ -1,4 +1,3 @@
-using Common.HelperMethods;
 using Common.Models;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -32,8 +31,9 @@ public class HeadingsService : HeadingsGRPCMicroservice.HeadingsService.Headings
         var contentString = await responseMessage.Content.ReadAsStringAsync();
         var headingsData = JsonConvert.DeserializeObject<HeadingsDataModel2>(contentString);
 
-        var headingsList = Methods.GetHeadingsList2(request.Category, headingsData).ToList();
-        var headings = headingsList.Select(FromInternalModel).ToList();
+        var headings = headingsData!.Documents
+            .Select(pair => pair.Value)
+            .Select(FromInternalModel).ToList();
         return new HeadingsResponse
         {
             Headings = { headings }
@@ -47,7 +47,8 @@ public class HeadingsService : HeadingsGRPCMicroservice.HeadingsService.Headings
             return null;
         }
 
-        var tag = new Tag {Name = source.Tag.Name, Path = source.Tag.Path};
+        source.Tag.TryGetValue("name", out var nameTag);
+        var tag = new Tag {Name = nameTag, Path = String.Empty};
 
         return new Heading
         {

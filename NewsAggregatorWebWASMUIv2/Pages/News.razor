@@ -1,9 +1,10 @@
 @page "/"
 @using NewsAggregatorWebWASMUIv2.Services
 @using Common.Models
-@inject HttpClient _httpClient
+@using HeadingsGRPCMicroservice
 @inject IState _appState
 @implements IDisposable
+@inject HeadingsService.HeadingsServiceClient _client
 
 <PageTitle>Материалы</PageTitle>
 
@@ -89,20 +90,18 @@
         {
             return ShowToday == false ?
                 _appState.Articles
-                    .Where(article =>
-                    {
-                        article.Tag.TryGetValue("name", out var nameTag);
-                        return string.IsNullOrEmpty(nameTag) == false && nameTag.Equals(Common.HelperMethods.Methods.GetTagNameBasedOnCategory(Category), StringComparison.InvariantCultureIgnoreCase);
-                    })
+                    .Where(article => article.ModelTag.Name.Equals(Common.HelperMethods.Methods.GetTagNameBasedOnCategory(Category), StringComparison.InvariantCultureIgnoreCase))
                     .OrderByDescending(article => article.PublishedAt)
                     .ToList()
                 : _appState.Articles
-                    .Where(article => article.Date.Equals(DateTime.Today))
                     .Where(article =>
                     {
-                        article.Tag.TryGetValue("name", out var nameTag);
-                        return string.IsNullOrEmpty(nameTag) == false && nameTag.Equals(Common.HelperMethods.Methods.GetTagNameBasedOnCategory(Category), StringComparison.InvariantCultureIgnoreCase);
-                    })                    
+                        var publishedDate = new DateTime(1970, 1, 1, 3, 0, 0).AddSeconds(article.PublishedAt);
+                        var publishedDateOnly = DateOnly.Parse(publishedDate.ToShortDateString());
+                        var todayDateOnly = DateTime.Parse(DateTime.Today.ToShortDateString());
+                        return publishedDateOnly.ToShortDateString().Equals(todayDateOnly.ToShortDateString());
+                    })
+                    .Where(article => article.ModelTag.Name.Equals(Common.HelperMethods.Methods.GetTagNameBasedOnCategory(Category), StringComparison.InvariantCultureIgnoreCase))
                     .OrderByDescending(article => article.PublishedAt)
                     .ToList();
         }
@@ -128,13 +127,19 @@
 
     private async Task GetArticlesCore()
     {
-        var headings = await _httpClient
-            .GetFromJsonAsync<IEnumerable<HeadingModel>>(
-                $"https://headings-river.herokuapp.com/Headings/{Category}") ??
-                       Array.Empty<HeadingModel>();
+        var headingsResponse = await _client.GetHeadingsAsync(new GetHeadingsRequest { Category = Category });
 
-        var fullArticles = headings
-            .Select(model => new FullArticle(model.Title, model.Url, model.Pub_Date, model.Published_At, model.Tag)).ToList();
+        var fullArticles = headingsResponse.Headings
+            .Select(model =>
+            {
+                var modelTag = new ModelTag()
+                {
+                    Name = model.Tag.Name,
+                    Path = model.Tag.Path
+                };
+                return new FullArticle(model.Title, model.Url, model.Pubdate.ToDateTime(), model.Publishedat, modelTag);
+            }).ToList();
+
         _appState.AddNewArticles(fullArticles);
     }
     
