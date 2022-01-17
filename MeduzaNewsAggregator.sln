@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchMicroservice", "Searc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsAggregatorWebWASMUIv2", "NewsAggregatorWebWASMUIv2\NewsAggregatorWebWASMUIv2.csproj", "{74082CD4-57B9-4614-8000-9D6EDB0FD287}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadingsGRPCMicroservice", "HeadingsGRPCMicroservice\HeadingsGRPCMicroservice.csproj", "{0F1443FD-895F-47DA-A324-BC02992BB111}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{74082CD4-57B9-4614-8000-9D6EDB0FD287}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74082CD4-57B9-4614-8000-9D6EDB0FD287}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74082CD4-57B9-4614-8000-9D6EDB0FD287}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F1443FD-895F-47DA-A324-BC02992BB111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F1443FD-895F-47DA-A324-BC02992BB111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F1443FD-895F-47DA-A324-BC02992BB111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F1443FD-895F-47DA-A324-BC02992BB111}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,32 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "HeadingsGRPCMicroservice";
+
+package headings;
+
+service HeadingsService {
+  rpc GetHeadings (GetHeadingsRequest) returns (HeadingsResponse);
+}
+
+message GetHeadingsRequest {
+  string category = 1;
+}
+
+message HeadingsResponse {
+  repeated Heading headings = 1;
+}
+
+message Heading {
+  string title = 1;
+  google.protobuf.Timestamp pubdate = 2;
+  string url = 3;
+  Tag tag = 4;
+  string type = 5;
+  int32 publishedat = 6;
+}
+
+message Tag {
+  string name = 1;
+  string path = 2;
+}
