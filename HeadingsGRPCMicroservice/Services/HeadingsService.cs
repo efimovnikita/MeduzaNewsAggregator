@@ -33,14 +33,51 @@ public class HeadingsService : HeadingsGRPCMicroservice.HeadingsService.Headings
 
         var headings = headingsData!.Documents
             .Select(pair => pair.Value)
-            .Select(FromInternalModel).ToList();
+            .Select(FromInternalModel)
+            .ToList();
         return new HeadingsResponse
         {
             Headings = { headings }
         };
     }
+    
+    public override async Task<HeadingsResponse> SearchHeadings(SearchRequest searchRequest, ServerCallContext context)
+    {
+        var httpClient = _httpClientFactory.CreateClient("headings");
+        List<HeadingsDataModel2> headingsDataList = new ();
+        
+        for (var i = 0; i < 100; i++)
+        {
+            var responseMessage = await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get,
+                $"https://meduza.io/api/v3/search?chrono={searchRequest.Category}&locale=ru&page={i}&per_page=100"));
 
-    private static Heading? FromInternalModel(HeadingModel2? source)
+            if (responseMessage.IsSuccessStatusCode == false)
+            {
+                continue;
+            }
+
+            var contentString = await responseMessage.Content.ReadAsStringAsync();
+            var headingsData = JsonConvert.DeserializeObject<HeadingsDataModel2>(contentString);
+
+            if (headingsData != null) headingsDataList.Add(headingsData);
+        }
+
+        var headings = headingsDataList
+            .Select(model2 => model2.Documents)
+            .SelectMany(model2S => model2S.Values)
+            .Select(FromInternalModel)
+            .ToList();
+
+        var filteredHeadings = headings.Where(heading =>
+            heading!.Title.Contains(searchRequest.Searchquery, StringComparison.InvariantCultureIgnoreCase)).ToList();
+
+        return new HeadingsResponse
+        {
+            Headings = { filteredHeadings }
+        };
+    }
+
+    public static Heading? FromInternalModel(HeadingModel2? source)
     {
         if (source is null)
         {
@@ -48,7 +85,7 @@ public class HeadingsService : HeadingsGRPCMicroservice.HeadingsService.Headings
         }
 
         source.Tag.TryGetValue("name", out var nameTag);
-        var tag = new Tag {Name = nameTag, Path = String.Empty};
+        var tag = new Tag {Name = nameTag ?? String.Empty, Path = String.Empty};
 
         return new Heading
         {

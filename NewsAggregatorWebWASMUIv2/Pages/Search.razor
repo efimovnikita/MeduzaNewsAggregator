@@ -2,7 +2,10 @@
 @inject IState _appState
 @using NewsAggregatorWebWASMUIv2.Services
 @using Common.Models
+@using Google.Protobuf.Collections
+@using HeadingsGRPCMicroservice
 @implements IDisposable
+@inject HeadingsService.HeadingsServiceClient _client
 
 <PageTitle>Поиск материалов</PageTitle>
 
@@ -88,31 +91,36 @@
         {
             ShowList = false;
             ShowSpinner = true;
-
-            // var headings = await _httpClient
-            //     .GetFromJsonAsync<IEnumerable<HeadingModel>>($"https://search-river.herokuapp.com/{Category}?search={SearchQuery}") ?? Array.Empty<HeadingModel>();
-            //
-            // var headingModels = headings.ToList();
-            // InsertMarkDownIntoTitles(headingModels.ToList());
-            //
-            // var fullArticles = headingModels
-            //     .Select(model => new FullArticle(model.Title, model.Url, model.Pub_Date, model.Published_At, model.Tag)).ToList();
-            // _appState.AddSearchedArticles(fullArticles);
+            
+            var searchResponse = await _client.SearchHeadingsAsync(new SearchRequest { Category = Category, Searchquery = SearchQuery });
+            var headings = searchResponse.Headings;
+            InsertMarkDownIntoTitles(headings);
+            var fullArticles = headings
+                .Select(model =>
+                {
+                    var modelTag = new ModelTag
+                    {
+                        Name = model.Tag.Name,
+                        Path = model.Tag.Path
+                    };
+                    return new FullArticle(model.Title, model.Url, model.Pubdate.ToDateTime(), model.Publishedat, modelTag);
+                }).ToList();
+            _appState.AddSearchedArticles(fullArticles);
 
             ShowList = true;
             ShowSpinner = false;
         }
     }
 
-    private void InsertMarkDownIntoTitles(List<HeadingModel> headingModels)
+    private void InsertMarkDownIntoTitles(RepeatedField<Heading> headingModels)
     {
-        headingModels.ForEach(headingModel =>
+        foreach (var headingModel in headingModels)
         {
             var words = headingModel.Title.Split(" ");
             InsertMarkdownIntoTitleWords(words);
-
+            
             headingModel.Title = string.Join(' ', words);
-        });
+        }
     }
 
     private string? Category { get; set; } = "news";

@@ -7,6 +7,7 @@ package headings;
 
 service HeadingsService {
   rpc GetHeadings (GetHeadingsRequest) returns (HeadingsResponse);
+  rpc SearchHeadings (SearchRequest) returns (HeadingsResponse);
 }
 
 message GetHeadingsRequest {
@@ -15,6 +16,11 @@ message GetHeadingsRequest {
 
 message HeadingsResponse {
   repeated Heading headings = 1;
+}
+
+message SearchRequest {
+  string category = 1;
+  string searchquery = 2;
 }
 
 message Heading {
