@@ -52,21 +52,31 @@ public class HeadingsService : HeadingsGRPCMicroservice.HeadingsService.Headings
         var savedCategoryTuples = _storageService.HeadingModels
             .Where(tuple => tuple.Item1.Equals(category))
             .ToList();
-        
+
         if (savedCategoryTuples.Count == 0)
         {
-            for (var i = 0; i < 150; i++)
+            var responseMessagesTasks = GetResponseMessagesTasks(httpClient, category);
+            var responseMessages = await Task.WhenAll(responseMessagesTasks);
+
+            var contentStringTasks = responseMessages
+                .Select(responseMessage => responseMessage.Content.ReadAsStringAsync())
+                .ToList();
+
+            var contentStrings = await Task.WhenAll(contentStringTasks);
+            foreach (var contentString in contentStrings)
             {
-                var headingsData = await GetSingleHeadingsData(httpClient, category, i);
-                if (headingsData == null) continue;
+                var headingsData = DeserializeHeadingsData(contentString);
                 _storageService.HeadingModels.Add((category, headingsData));
             }
         }
 
-        var headingsDataModels = _storageService.HeadingModels.Select(tuple => tuple.Item2).ToList();
+        var headingsDataModels = _storageService.HeadingModels
+            .Where(tuple => tuple.Item2 is not null)
+            .Select(tuple => tuple.Item2)
+            .ToList();
 
         var headings = headingsDataModels
-            .Select(model2 => model2.Documents)
+            .Select(model2 => model2!.Documents)
             .SelectMany(model2S => model2S.Values)
             .Select(FromInternalModel)
             .ToList();
@@ -82,21 +92,33 @@ public class HeadingsService : HeadingsGRPCMicroservice.HeadingsService.Headings
         };
     }
 
-    private static async Task<HeadingsDataModel2?> GetSingleHeadingsData(HttpClient client, string category, int page)
+    private static HeadingsDataModel2? DeserializeHeadingsData(string content)
     {
-        var responseMessage = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get,
-            $"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page={page}&per_page=100"));
-
-        if (responseMessage.IsSuccessStatusCode == false)
+        HeadingsDataModel2? headingsData = default;
+        try
         {
-            return null;
+            headingsData = JsonConvert.DeserializeObject<HeadingsDataModel2>(content);
+        }
+        catch
+        {
+            // ignored
         }
 
-        var contentString = await responseMessage.Content.ReadAsStringAsync();
-        var headingsData = JsonConvert.DeserializeObject<HeadingsDataModel2>(contentString);
         return headingsData;
     }
 
+    private static IEnumerable<Task<HttpResponseMessage>> GetResponseMessagesTasks(HttpClient httpClient, string category)
+    {
+        List<Task<HttpResponseMessage>> responseMessagesTasks = new();
+        for (var i = 0; i < 150; i++)
+        {
+            responseMessagesTasks.Add(httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get,
+                $"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page={i}&per_page=100")));
+        }
+
+        return responseMessagesTasks;
+    }
+    
     public static Heading? FromInternalModel(HeadingModel2? source)
     {
         if (source is null)
