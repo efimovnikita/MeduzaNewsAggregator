@@ -103,8 +103,8 @@
         {
             ShowList = false;
             ShowSpinner = true;
-            
-            var searchResponse = await _client.SearchHeadingsAsync(new SearchRequest { Category = Category, Searchquery = SearchQuery });
+
+            var searchResponse = await _client.SearchHeadingsAsync(new SearchRequest {Category = Category, Searchquery = SearchQuery});
             var headings = searchResponse.Headings;
             InsertMarkDownIntoTitles(headings);
             var fullArticles = headings
@@ -130,12 +130,12 @@
         {
             var words = headingModel.Title.Split(" ");
             InsertMarkdownIntoTitleWords(words);
-            
+
             headingModel.Title = string.Join(' ', words);
         }
     }
 
-    private string? Category { get; set; } = "news";
+    private string Category { get; set; } = "news";
 
     private string? SearchQuery { get; set; }
 

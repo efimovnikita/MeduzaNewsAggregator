@@ -11,6 +11,10 @@ public class AngleSharpParser : IHtmlParserService
     public async Task<string> ProcessArticleBody(ArticleRootModel article)
     {
         var contentBody = article.Root.Content.Body;
+        if (string.IsNullOrEmpty(contentBody))
+        {
+            return string.Empty;
+        }
 
         var config = Configuration.Default.WithJs();
         var context = BrowsingContext.New(config);

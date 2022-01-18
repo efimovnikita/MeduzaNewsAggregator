@@ -25,7 +25,16 @@
     @if (FullArticle.Expanded)
     {
         <article style="padding: 10px; color: #4f5050">
-            <section style="white-space: pre-wrap">@FullArticle.Text</section>
+            <section style="white-space: pre-wrap">
+                @if (string.IsNullOrEmpty(FullArticle.Text) == false)
+                {
+                    @FullArticle.Text
+                }
+                else
+                {
+                        <p class="text-muted">Empty...</p>
+                }
+            </section>
             <footer style="margin-top: 5px; text-transform: lowercase">
                 <button class="btn btn-outline-secondary btn-sm" type="button" @onclick="FollowLink">
                     <span class="oi oi-link-intact" aria-hidden="true"></span>
