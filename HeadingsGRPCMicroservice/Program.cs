@@ -9,6 +9,7 @@ builder.Services.AddCors();
 builder.Services.AddHttpClient("headings")
     .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip });
 builder.Services.AddTransient<IHtmlParserService, AngleSharpParser>();
+builder.Services.AddSingleton<IStorageService, HeadingsStorageService>();
 
 var app = builder.Build();
 

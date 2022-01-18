@@ -66,7 +66,10 @@
         _appState.StateChanged += StateHasChanged;
     }
 
-    private List<FullArticle> Articles => _appState.SearchedArticles;
+    private List<FullArticle> Articles => _appState.SearchedArticles
+        .Where(article => article.ModelTag.Name.Equals(Common.HelperMethods.Methods.GetTagNameBasedOnCategory(Category), StringComparison.InvariantCultureIgnoreCase))
+        .OrderByDescending(article => article.PublishedAt)
+        .ToList();
 
     private bool ShowSpinner { get; set; }
     private bool ShowList { get; set; }
