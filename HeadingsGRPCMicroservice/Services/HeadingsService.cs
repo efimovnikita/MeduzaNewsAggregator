@@ -63,11 +63,15 @@ public class HeadingsService : HeadingsGRPCMicroservice.HeadingsService.Headings
                 .ToList();
 
             var contentStrings = await Task.WhenAll(contentStringTasks);
-            foreach (var contentString in contentStrings)
-            {
-                var headingsData = DeserializeHeadingsData(contentString);
-                _storageService.HeadingModels.Add((category, headingsData));
-            }
+
+            var deserializedModelsTasks = contentStrings
+                .Select(content => Task.Run(() => DeserializeHeadingsData(content)))
+                .ToList();
+
+            var models = await Task.WhenAll(deserializedModelsTasks);
+            var tuples = ZipCategoriesWithModels(models, category);
+
+            _storageService.HeadingModels.AddRange(tuples);
         }
 
         var headingsDataModels = _storageService.HeadingModels
@@ -90,6 +94,18 @@ public class HeadingsService : HeadingsGRPCMicroservice.HeadingsService.Headings
         {
             Headings = { filteredHeadings }
         };
+    }
+
+    private static IEnumerable<(string category, HeadingsDataModel2? model)> ZipCategoriesWithModels(HeadingsDataModel2?[] models, string category)
+    {
+        List<string> categories = new();
+        for (var i = 0; i < models.Length; i++)
+        {
+            categories.Add(category);
+        }
+
+        IEnumerable<(string category, HeadingsDataModel2? model)> tuples = categories.Zip(models);
+        return tuples;
     }
 
     private static HeadingsDataModel2? DeserializeHeadingsData(string content)

@@ -4,5 +4,5 @@ namespace Common.Services;
 
 public interface IStorageService
 {
-    List<(string, HeadingsDataModel2?)> HeadingModels { get; set; }
+    List<(string category, HeadingsDataModel2? model)> HeadingModels { get; set; }
 }
