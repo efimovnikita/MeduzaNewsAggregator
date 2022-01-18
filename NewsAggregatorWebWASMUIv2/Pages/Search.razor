@@ -29,25 +29,34 @@
 
 @if (ShowList)
 {
-    <ErrorBoundary>
-        <ChildContent>
-            <ol class="fade-in">
-                @foreach (var article in Articles)
-                {
-                    <li style="margin-bottom: 5px">
-                        <ArticleComponent FullArticle="article"/>
-                    </li>
-                }
-            </ol>
-        </ChildContent>
-        <ErrorContent Context="ex">
-            <div class="alert alert-danger" role="alert">
-                <p>Ошибка при загрузке списка материалов...</p>
-                <hr>
-                <p class="mb-0">@ex.StackTrace</p>
-            </div>
-        </ErrorContent>
-    </ErrorBoundary>
+    @if (Articles.Count > 0)
+    {
+        <ErrorBoundary>
+            <ChildContent>
+                <ol class="fade-in">
+                    @foreach (var article in Articles)
+                    {
+                        <li style="margin-bottom: 5px">
+                            <ArticleComponent FullArticle="article"/>
+                        </li>
+                    }
+                </ol>
+            </ChildContent>
+            <ErrorContent Context="ex">
+                <div class="alert alert-danger" role="alert">
+                    <p>Ошибка при загрузке списка материалов...</p>
+                    <hr>
+                    <p class="mb-0">@ex.StackTrace</p>
+                </div>
+            </ErrorContent>
+        </ErrorBoundary>
+    }
+    else
+    {
+        <div class="alert alert-secondary fade-in" role="alert">
+            Материалы не найдены...
+        </div>
+    }
 }
 
 @code {
