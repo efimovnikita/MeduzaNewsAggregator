@@ -12,12 +12,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<IState, AppState>();
 
-#if RELEASE
-    var uri = new Uri("http://20.113.15.205:80");
-#endif
-#if DEBUG
-    var uri = new Uri("https://localhost:7055");
-#endif
+
+var uri = new Uri("https://headingsgrpcmicroservice-rffu2p25hq-ey.a.run.app");
+
 
 builder.Services.AddSingleton(_ => 
 { 

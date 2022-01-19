@@ -11,13 +11,16 @@ builder.Services.AddHttpClient("headings")
 builder.Services.AddTransient<IHtmlParserService, AngleSharpParser>();
 builder.Services.AddSingleton<IStorageService, HeadingsStorageService>();
 
+var port = Environment.GetEnvironmentVariable("PORT");
+
+builder.WebHost.ConfigureKestrel(options => options.Listen(IPAddress.Any, Convert.ToInt32(port)));
+
 var app = builder.Build();
 
 app.UseCors(cors => cors
+    .WithOrigins("https://localhost:7149")
     .AllowAnyMethod()
     .AllowAnyHeader()
-    .SetIsOriginAllowed(origin => true)
-    .AllowCredentials()
 );
 
 app.UseGrpcWeb();
