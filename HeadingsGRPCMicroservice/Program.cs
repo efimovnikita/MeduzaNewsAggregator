@@ -18,7 +18,7 @@ builder.WebHost.ConfigureKestrel(options => options.Listen(IPAddress.Any, Conver
 var app = builder.Build();
 
 app.UseCors(cors => cors
-    .WithOrigins("https://localhost:7149")
+    .AllowAnyOrigin()
     .AllowAnyMethod()
     .AllowAnyHeader()
 );
