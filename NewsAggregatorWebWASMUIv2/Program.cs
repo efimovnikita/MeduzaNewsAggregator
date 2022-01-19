@@ -11,17 +11,23 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<IState, AppState>();
+
+#if RELEASE
+    var uri = new Uri("http://20.113.15.205:80");
+#endif
+#if DEBUG
+    var uri = new Uri("https://localhost:7055");
+#endif
+
 builder.Services.AddSingleton(_ => 
 { 
     var httpClient = new HttpClient(new GrpcWebHandler(GrpcWebMode.GrpcWeb, new HttpClientHandler()));
-    var uri = new Uri("http://20.113.15.205:80");
     var channel = GrpcChannel.ForAddress(uri, new GrpcChannelOptions { HttpClient = httpClient }); 
     return new HeadingsService.HeadingsServiceClient(channel); 
 });
 builder.Services.AddSingleton(_ => 
 { 
     var httpClient = new HttpClient(new GrpcWebHandler(GrpcWebMode.GrpcWeb, new HttpClientHandler()));
-    var uri = new Uri("http://20.113.15.205:80");
     var channel = GrpcChannel.ForAddress(uri, new GrpcChannelOptions { HttpClient = httpClient });
     return new ArticlesService.ArticlesServiceClient(channel);
 });
