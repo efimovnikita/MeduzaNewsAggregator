@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/HeadingsMicroservice/publish" />
         <option value="$PROJECT_DIR$/SearchMicroservice/publish" />
         <option value="$PROJECT_DIR$/NewsAggregatorWebWASMUIv2/publish" />
+        <option value="$PROJECT_DIR$/HeadingsGRPCMicroservice/publish" />
       </list>
     </option>
   </component>
