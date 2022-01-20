@@ -11,9 +11,10 @@ builder.Services.AddHttpClient("headings")
 builder.Services.AddTransient<IHtmlParserService, AngleSharpParser>();
 builder.Services.AddSingleton<IStorageService, HeadingsStorageService>();
 
-var port = Environment.GetEnvironmentVariable("PORT");
-
-builder.WebHost.ConfigureKestrel(options => options.Listen(IPAddress.Any, Convert.ToInt32(port)));
+#if RELEASE
+    var port = Environment.GetEnvironmentVariable("PORT");
+    builder.WebHost.ConfigureKestrel(options => options.Listen(IPAddress.Any, Convert.ToInt32(port)));
+#endif
 
 var app = builder.Build();
 
