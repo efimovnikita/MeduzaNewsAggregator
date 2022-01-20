@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsAggregatorWebWASMUIv2",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadingsGRPCMicroservice", "HeadingsGRPCMicroservice\HeadingsGRPCMicroservice.csproj", "{0F1443FD-895F-47DA-A324-BC02992BB111}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsAggregatorConsoleTool", "NewsAggregatorConsoleTool\NewsAggregatorConsoleTool.csproj", "{5E6DBEF7-33DB-4190-A569-0C1A85EF93DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{0F1443FD-895F-47DA-A324-BC02992BB111}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F1443FD-895F-47DA-A324-BC02992BB111}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F1443FD-895F-47DA-A324-BC02992BB111}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E6DBEF7-33DB-4190-A569-0C1A85EF93DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E6DBEF7-33DB-4190-A569-0C1A85EF93DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E6DBEF7-33DB-4190-A569-0C1A85EF93DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E6DBEF7-33DB-4190-A569-0C1A85EF93DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

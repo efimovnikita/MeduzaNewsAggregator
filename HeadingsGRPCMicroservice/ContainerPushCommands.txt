@@ -1,0 +1,2 @@
+docker build -t europe-west3-docker.pkg.dev/hazel-delight-268911/repo/headingsgrpcmicroservice:latest .
+docker push europe-west3-docker.pkg.dev/hazel-delight-268911/repo/headingsgrpcmicroservice:latest
