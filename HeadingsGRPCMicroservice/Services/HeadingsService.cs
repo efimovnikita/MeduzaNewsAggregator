@@ -1,3 +1,4 @@
+using Common.HelperMethods;
 using Common.Models;
 using Common.Services;
 using Google.Protobuf.WellKnownTypes;
@@ -19,20 +20,7 @@ public class HeadingsService : HeadingsGRPCMicroservice.HeadingsService.Headings
 
     public override async Task<HeadingsResponse> GetHeadings(GetHeadingsRequest request, ServerCallContext context)
     {
-        var httpClient = _httpClientFactory.CreateClient("headings");
-        var responseMessage = await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get,
-            $"https://meduza.io/api/v3/search?chrono={request.Category}&locale=ru&page=0&per_page=24"));
-
-        if (responseMessage.IsSuccessStatusCode == false)
-        {
-            return new HeadingsResponse
-            {
-                Headings = { new List<Heading>() }
-            };
-        }
-
-        var contentString = await responseMessage.Content.ReadAsStringAsync();
-        var headingsData = JsonConvert.DeserializeObject<HeadingsDataModel2>(contentString);
+        var headingsData = await Methods.GetHeadingsDataModel(_httpClientFactory, "headings", request.Category);
 
         var headings = headingsData!.Documents
             .Select(pair => pair.Value)
@@ -43,7 +31,7 @@ public class HeadingsService : HeadingsGRPCMicroservice.HeadingsService.Headings
             Headings = { headings }
         };
     }
-    
+
     public override async Task<HeadingsResponse> SearchHeadings(SearchRequest searchRequest, ServerCallContext context)
     {
         var httpClient = _httpClientFactory.CreateClient("headings");
@@ -96,7 +84,7 @@ public class HeadingsService : HeadingsGRPCMicroservice.HeadingsService.Headings
         };
     }
 
-    private static IEnumerable<(string category, HeadingsDataModel2? model)> ZipCategoriesWithModels(HeadingsDataModel2?[] models, string category)
+    private static IEnumerable<(string category, HeadingsDataModel? model)> ZipCategoriesWithModels(HeadingsDataModel?[] models, string category)
     {
         List<string> categories = new();
         for (var i = 0; i < models.Length; i++)
@@ -104,16 +92,16 @@ public class HeadingsService : HeadingsGRPCMicroservice.HeadingsService.Headings
             categories.Add(category);
         }
 
-        IEnumerable<(string category, HeadingsDataModel2? model)> tuples = categories.Zip(models);
+        IEnumerable<(string category, HeadingsDataModel? model)> tuples = categories.Zip(models);
         return tuples;
     }
 
-    private static HeadingsDataModel2? DeserializeHeadingsData(string content)
+    private static HeadingsDataModel? DeserializeHeadingsData(string content)
     {
-        HeadingsDataModel2? headingsData = default;
+        HeadingsDataModel? headingsData = default;
         try
         {
-            headingsData = JsonConvert.DeserializeObject<HeadingsDataModel2>(content);
+            headingsData = JsonConvert.DeserializeObject<HeadingsDataModel>(content);
         }
         catch
         {
@@ -135,7 +123,7 @@ public class HeadingsService : HeadingsGRPCMicroservice.HeadingsService.Headings
         return responseMessagesTasks;
     }
     
-    public static Heading? FromInternalModel(HeadingModel2? source)
+    public static Heading? FromInternalModel(HeadingModel? source)
     {
         if (source is null)
         {

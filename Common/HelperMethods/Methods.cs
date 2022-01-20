@@ -1,30 +1,10 @@
 using Common.Models;
+using Newtonsoft.Json;
 
 namespace Common.HelperMethods;
 
 public static class Methods
 {
-    public static IEnumerable<HeadingModel> GetHeadingsList(string category, HeadingsDataModel? headings)
-    {
-        var documents = headings?.Documents
-            .Where(pair =>
-            {
-                var headingModel = pair.Value;
-                headingModel.Tag.TryGetValue("name", out var nameTagValue);
-                return string.IsNullOrWhiteSpace(nameTagValue) != true &&
-                       nameTagValue.Equals(GetTagNameBasedOnCategory(category),
-                           StringComparison.InvariantCultureIgnoreCase);
-            })
-            .Select(pair => pair.Value);
-
-        documents = documents?
-            .Where(model => model.Document_Type.Equals("video") == false)
-            .OrderByDescending(model => model.Pub_Date)
-            .ThenByDescending(model => model.Published_At);
-
-        return documents ?? Array.Empty<HeadingModel>();
-    }
-
     public static string GetTagNameBasedOnCategory(string category)
     {
         return category switch
@@ -34,5 +14,22 @@ public static class Methods
             "articles" => "истории",
             _ => "новости"
         };
+    }
+
+    public static async Task<HeadingsDataModel?> GetHeadingsDataModel(IHttpClientFactory httpClientFactory,
+        string clientName, string category)
+    {
+        var httpClient = httpClientFactory.CreateClient(clientName);
+        var responseMessage = await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get,
+            $"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page=0&per_page=24"));
+
+        if (responseMessage.IsSuccessStatusCode == false)
+        {
+            return new HeadingsDataModel();
+        }
+
+        var contentString = await responseMessage.Content.ReadAsStringAsync();
+        var headingsData = JsonConvert.DeserializeObject<HeadingsDataModel>(contentString);
+        return headingsData;
     }
 }
