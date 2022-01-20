@@ -34,8 +34,22 @@ public class App
     {
         if (action.Equals("search", StringComparison.InvariantCultureIgnoreCase))
         {
-            Console.WriteLine($"Search query is {query}");
-            Console.WriteLine("Search doesn't work yet...");
+            var httpClient = _httpClientFactory.CreateClient("headings");
+            var tuples = await Methods.GetCategoryModelTupleList(httpClient, category);
+
+            var dataModels = tuples.Where(tuple => tuple.model is not null)
+                .Where(tuple => tuple.category.Equals(category))
+                .Select(tuple => tuple.model)
+                .ToList();
+
+            var models = dataModels.Select(model => model!.Documents)
+                .SelectMany(models => models.Values)
+                .Where(model => model.Title.Contains(query, StringComparison.InvariantCultureIgnoreCase))
+                .Distinct()
+                .ToList();
+
+            Print(models);
+            
             return;
         }
 
@@ -45,6 +59,11 @@ public class App
             .Take(Convert.ToInt32(newsCount))
             .ToList();
 
+        Print(headingModels);
+    }
+
+    private static void Print(IReadOnlyList<HeadingModel> headingModels)
+    {
         for (var i = 0; i < headingModels.Count; i++)
         {
             Console.WriteLine($"{i + 1}) {headingModels[i].Title}");

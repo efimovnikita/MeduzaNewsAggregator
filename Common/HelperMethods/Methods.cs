@@ -32,4 +32,64 @@ public static class Methods
         var headingsData = JsonConvert.DeserializeObject<HeadingsDataModel>(contentString);
         return headingsData;
     }
+
+    public static async Task<IEnumerable<(string category, HeadingsDataModel? model)>> GetCategoryModelTupleList(
+        HttpClient httpClient, string category)
+    {
+        var responseMessagesTasks = GetResponseMessagesTasks(httpClient, category);
+        var responseMessages = await Task.WhenAll(responseMessagesTasks);
+
+        var contentStringTasks = responseMessages.Select(responseMessage => responseMessage.Content.ReadAsStringAsync())
+            .ToList();
+
+        var contentStrings = await Task.WhenAll(contentStringTasks);
+
+        var deserializedModelsTasks = contentStrings
+            .Select(content => Task.Run(() => DeserializeHeadingsData(content)))
+            .ToList();
+
+        var models = await Task.WhenAll(deserializedModelsTasks);
+        return ZipCategoriesWithModels(models, category);
+    }
+
+    private static IEnumerable<(string category, HeadingsDataModel? model)> ZipCategoriesWithModels(
+        IReadOnlyCollection<HeadingsDataModel?> models, string category)
+    {
+        List<string> categories = new();
+        for (var i = 0; i < models.Count; i++)
+        {
+            categories.Add(category);
+        }
+
+        IEnumerable<(string category, HeadingsDataModel? model)> tuples = categories.Zip(models);
+        return tuples;
+    }
+
+    private static HeadingsDataModel? DeserializeHeadingsData(string content)
+    {
+        HeadingsDataModel? headingsData = default;
+        try
+        {
+            headingsData = JsonConvert.DeserializeObject<HeadingsDataModel>(content);
+        }
+        catch
+        {
+            // ignored
+        }
+
+        return headingsData;
+    }
+
+    private static IEnumerable<Task<HttpResponseMessage>> GetResponseMessagesTasks(HttpClient httpClient,
+        string category)
+    {
+        List<Task<HttpResponseMessage>> responseMessagesTasks = new();
+        for (var i = 0; i < 150; i++)
+        {
+            responseMessagesTasks.Add(httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get,
+                $"https://meduza.io/api/v3/search?chrono={category}&locale=ru&page={i}&per_page=100")));
+        }
+
+        return responseMessagesTasks;
+    }
 }
